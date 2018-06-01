@@ -3,20 +3,42 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Post } from '../models/post.model';
 import { Commento } from '../models/commento.model';
+import { map } from 'rxjs/internal/operators';
+import { post } from 'selenium-webdriver/http';
 
 @Injectable()
 export class HttpService {
   private _posts: any[] = null;
 
-  constructor(private _httpClient: HttpClient) { }
-
+  constructor(private _httpClient: HttpClient) {
+  }
 
 
   // import cv data from the server
-  public loadPosts(): Observable<any[]> {
+  public loadPosts(): Observable<Post[]> {
     return this._httpClient.get<any[]>(
       'http://localhost:8080/blog/rest/posts'
     )
+      .pipe(
+        map(extPosts => {
+          var posts: Post[] = [];
+          extPosts.forEach((extPost: any) => {
+            var post: Post = new Post(
+              extPost.id,
+              extPost.titolo,
+              extPost.descrizione,
+              extPost.dataPostAsString,
+              extPost.visibile,
+              extPost.visite,
+              extPost.categoria,
+              extPost.utente,
+              extPost.tags
+            );
+            posts.push(post);
+          });
+          return posts;
+        })
+      )
   }
 
   public loadTags(): Observable<any[]> {
@@ -62,7 +84,8 @@ export class HttpService {
   }
 
   newComment(commento: Commento): Observable<boolean> {
-    return this._httpClient.post<boolean>('http://localhost:8080/blog/rest/comments',
+    console.log(JSON.stringify(commento));
+    return this._httpClient.post<boolean>('http://localhost:8080/blog/rest/commenti',
       JSON.stringify(commento),
       {
         headers: {

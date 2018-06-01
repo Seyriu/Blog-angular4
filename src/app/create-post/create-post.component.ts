@@ -8,6 +8,7 @@ import { post } from 'selenium-webdriver/http';
 import { Post } from '../models/post.model';
 import { UtilitiesService } from '../services/utilities.service';
 import { Tag } from '../models/tag.model';
+import { Commento } from '../models/commento.model';
 
 @Component({
   selector: 'app-create-post',
@@ -63,7 +64,7 @@ export class CreatePostComponent implements OnInit {
     for (var i = 0; i < names.length; i++) {
       if (i > 0) {
         console.log(names[i]);
-        if(names[i].indexOf(" ") > 0) {
+        if (names[i].indexOf(" ") > 0) {
           names[i] = names[i].substr(0, names[i].indexOf(" "));
         } else {
           names[i] = names[i].substr(0);

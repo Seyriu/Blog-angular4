@@ -10,7 +10,7 @@
     <hr>
 
     <div class="row">
-      <app-post-tile *ngFor="let postRef of posts | slice:0:6; let i=index" class="dropdown-item" [post]="postRef"></app-post-tile>
+      <app-post-tile *ngFor="let postRef of posts | filterVisibile | slice:0:6; let i=index" class="dropdown-item" [post]="postRef"></app-post-tile>
     </div>
     <!--/row-->
   </div>

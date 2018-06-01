@@ -10,6 +10,7 @@ import { Post } from '../models/post.model';
 export class HomeComponent implements OnInit {
   posts: any[];
   tags: any[];
+
   constructor(private http: HttpService) { }
 
   ngOnInit() {

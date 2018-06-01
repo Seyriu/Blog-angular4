@@ -20,12 +20,11 @@ export class ShowPostComponent implements OnInit {
   utente: Utente;
   commentForm: FormGroup;
 
-  constructor(
-    private http: HttpService,
-    private route: ActivatedRoute,
-    public utilities: UtilitiesService,
-    public login: LoginService
-    ) { }
+  constructor(private http: HttpService,
+              private route: ActivatedRoute,
+              public utilities: UtilitiesService,
+              public login: LoginService) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -48,23 +47,25 @@ export class ShowPostComponent implements OnInit {
     );
 
     this.commentForm = new FormGroup({
-      'commentoPost': new FormControl(null, [Validators.required])
+      'commentoPost': new FormControl(null)
     });
   }
 
   onSubmitNewComment() {
-
     if (this.commentForm.valid) {
-      var commento = new Commento(
-        null,
+
+      var commento: Commento = new Commento(
+        -1,
         this.commentForm.get("commentoPost").value,
         this.utilities.dateToString(new Date()),
-        null,
         "",
-        true,
-        this.post
+        "",
+        false,
+        this.post,
+        this.utente
       );
 
+      console.log(commento, "32452345");
       this.http.newComment(commento).subscribe(
         result => {
           console.log(result);

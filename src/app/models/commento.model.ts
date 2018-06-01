@@ -1,4 +1,5 @@
 import { Post } from './post.model';
+import { Utente } from './utente.model';
 
 export class Commento {
   constructor(
@@ -8,6 +9,7 @@ export class Commento {
     public dataRispostAsString: string,
     public risposta: string,
     public visibile: boolean,
-    public post: Post
+    public post: Post,
+    public utente: Utente
   ) {}
 }
