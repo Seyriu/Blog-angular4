@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
+import { Post } from '../models/post.model';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.http.loadPosts().subscribe(
-      (posts: any[]) => {
+      (posts: Post[]) => {
         this.posts = posts;
       });
 
