@@ -1,0 +1,86 @@
+<nav class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+              aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" [routerLink]="['/home']">BLOG!</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a [routerLink]="['/home']">Blog/home</a>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categorie
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a *ngFor="let categoria of categorie" [routerLink]="['/categorie', categoria.id]">{{categoria.nome}}</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a [routerLink]="['/crea-post']" *ngIf="utente?.ruolo.nome === 'administrator'">Crea Post</a>
+        </li>
+      </ul>
+      <p class="navbar-text navbar-right" *ngIf="isUserLoggedIn">Bentornato, {{ utente?.email }}!</p>
+      <div class="navbar-right navbar-form">
+        <button type="button" class="btn btn-warning" [routerLink]="['/registrazione']"
+                *ngIf="!isUserLoggedIn" style="margin-right: 5px;">
+          Registrati
+        </button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#accesso"
+                *ngIf="!isUserLoggedIn">
+          Accedi
+        </button>
+        <button type="button" class="btn btn-danger" *ngIf="isUserLoggedIn" (click)="esci()">Esci</button>
+      </div>
+    </div>
+    <!-- /.nav-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+<!-- /.navbar -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="accesso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Email"
+                   formControlName="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password"
+                   formControlName="password" required>
+          </div>
+          <div class="alert alert-success" *ngIf="isUserLoggedIn">Log in avvenuto con successo!</div>
+          <div class="alert alert-danger" *ngIf="!isUserLoggedIn">Errore nell'inserimento dei dati o user non ancora
+            loggato
+          </div>
+          <button type="submit" class="btn btn-success">Accedi</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

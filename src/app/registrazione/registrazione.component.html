@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <h1 class="text-center">REGISTRATI</h1>
+    <div class="corniceReg">
+      <form class="form-horizontal" [formGroup]="regForm" (ngSubmit)="onSubmitNewUser()">
+        <div class="form-group">
+          <label for="emailSU" class="col-sm-3 control-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="emailSU" formControlName="emailSU" placeholder="Email" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passwordSU" class="col-sm-3 control-label">Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="passwordSU" formControlName="passwordSU" placeholder="Password" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passwordRe" class="col-sm-3 control-label">Ripeti Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="passwordRe" formControlName="passwordRe" placeholder="Ripeti Password" required>
+          </div>
+        </div>
+        <span
+          *ngIf="!(regForm.get('passwordSU').value === regForm.get('passwordRe').value)"
+          class="help-block">
+              <!--<span *ngIf="regForm.get('passwordSU')-->
+              <!--.errors['passwordDiverse'] && !regForm.get('passwordRe').untouched">Le password sono Diverse!</span>-->
+
+            </span>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <span class="help-block" *ngIf="!regForm.valid && regForm.touched">Inserisci dati validi!</span>
+            <div class="alert alert-danger" *ngIf="utenteInserito === 'error'">Errore durante l'inserimento</div>
+            <div class="alert alert-success" *ngIf="utenteInserito === 'success'">Utente inserito con successo!</div>
+            <button type="submit" class="btn btn-success">Registrati</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

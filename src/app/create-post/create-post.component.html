@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+    <hr>
+    <h1 class="text-center">Crea Post</h1>
+    <hr>
+  </div>
+  <form class="form-horizontal" [formGroup]="postForm" (ngSubmit)="onSubmitNewPost()">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <label>Titolo Post</label>
+        <input type="text" class="form-control" #titPost formControlName="titoloPost" placeholder="Titolo">
+      </div>
+
+      <div class="form-group">
+        <label>Seleziona Categoria</label>
+        <select class="form-control" #catCmb formControlName="categoriaPost" (change)="setCategoria(catCmb?.value)">
+          <option *ngFor="let categoria of categorie; let i = index" [value]="i">{{ categoria.nome }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Scrivi testo</label>
+        <textarea name="" id="" cols="30" rows="3" #textPost style="resize: none;" class="form-control"
+                  formControlName="testoPost"></textarea>
+      </div>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#anteprimaCreaPost">Anteprima
+      </button>
+      <button type="submit" class="btn btn-success" *ngIf="utente?.ruolo.nome === 'administrator'">Pubblica</button>
+    </div>
+  </form>
+
+  <div class="modal fade" id="anteprimaCreaPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Anteprima Post</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Anteprima Post</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-md-2">
+                <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
+
+                <h6>{{ categorie? categorie[+catCmb?.value]?.nome : "" }}</h6>
+              </div>
+              <div class="col-md-10">
+                <p>{{ titPost.value }}</p>
+                <p>{{ textPost.value }}</p>
+              </div>
+              <hr>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
