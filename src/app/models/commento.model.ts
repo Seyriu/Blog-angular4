@@ -6,7 +6,7 @@ export class Commento {
     public id: number,
     public testo: string,
     public dataInserimentoAsString: string,
-    public dataRispostAsString: string,
+    public dataRispostaAsString: string,
     public risposta: string,
     public visibile: boolean,
     public post: Post,

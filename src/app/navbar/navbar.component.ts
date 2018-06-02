@@ -3,6 +3,7 @@ import { HttpService } from '../services/http.service';
 import { LoginService } from '../services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
+import { Categoria } from '../models/categoria.model';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +23,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.http.loadCategorie().subscribe(
-      (categorie: any[]) => {
+      (categorie: Categoria[]) => {
         this.categorie = categorie;
       });
 

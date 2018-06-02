@@ -1,6 +1,7 @@
 import { Categoria } from './categoria.model';
 import { Utente } from './utente.model';
 import { Tag } from './tag.model';
+import { Commento } from './commento.model';
 
 export class Post {
   constructor(
@@ -12,6 +13,7 @@ export class Post {
     public visite: number,
     public categoria: Categoria,
     public utente: Utente,
+    public commenti: Commento[],
     public tags: Tag[]
   ) {}
 }

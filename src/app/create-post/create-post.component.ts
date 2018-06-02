@@ -59,22 +59,21 @@ export class CreatePostComponent implements OnInit {
     var tags: Tag[] = [];
     var tag: Tag;
     var names: string[];
-    names = text.split("#");
-    console.log(names);
-    for (var i = 0; i < names.length; i++) {
-      if (i > 0) {
-        console.log(names[i]);
-        if (names[i].indexOf(" ") > 0) {
-          names[i] = names[i].substr(0, names[i].indexOf(" "));
-        } else {
-          names[i] = names[i].substr(0);
+    if (text) {
+      names = text.split("#");
+      for (var i = 0; i < names.length; i++) {
+        if (i > 0) {
+          if (names[i].indexOf(" ") > 0) {
+            names[i] = names[i].substr(0, names[i].indexOf(" "));
+          } else {
+            names[i] = names[i].substr(0);
+          }
+          tag = new Tag(-1, names[i], null);
+          tags.push(tag);
         }
-        tag = new Tag(-1, names[i]);
-        tags.push(tag);
       }
     }
 
-    console.log(tags);
     return tags;
   }
 
@@ -92,10 +91,11 @@ export class CreatePostComponent implements OnInit {
         0,
         this._categoria,
         this.utente,
+        null,
         this.getHashTags(this.postForm.get("testoPost").value)
       );
 
-      this.http.newPost(this.post).subscribe(
+      this.http.insertPost(this.post).subscribe(
         result => {
           console.log(result);
         }

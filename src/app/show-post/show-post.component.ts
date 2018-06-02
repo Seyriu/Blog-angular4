@@ -54,19 +54,18 @@ export class ShowPostComponent implements OnInit {
   onSubmitNewComment() {
     if (this.commentForm.valid) {
 
-      var commento: Commento = new Commento(
+      const commento: Commento = new Commento(
         -1,
         this.commentForm.get("commentoPost").value,
         this.utilities.dateToString(new Date()),
-        "",
-        "",
+        null,
+        null,
         false,
         this.post,
         this.utente
       );
 
-      console.log(commento, "32452345");
-      this.http.newComment(commento).subscribe(
+      this.http.insertComment(commento).subscribe(
         result => {
           console.log(result);
         }

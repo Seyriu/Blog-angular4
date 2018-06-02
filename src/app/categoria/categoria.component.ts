@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
+import { Categoria } from '../models/categoria.model';
 
 @Component({
   selector: 'app-categoria',
@@ -18,7 +19,7 @@ export class CategoriaComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.http.loadCategoria(this.id).subscribe(
-        (categoria: any[]) => {
+        (categoria: Categoria) => {
           this.categoria = categoria;
         });
     });
