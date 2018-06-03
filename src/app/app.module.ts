@@ -16,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ShowPostComponent } from './show-post/show-post.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
 import { filterVisibilePipe } from './pipes/filterVisibile.pipe';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { filterUncheckedPipe } from './pipes/filterUnchecked.pipe';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,11 @@ import { filterVisibilePipe } from './pipes/filterVisibile.pipe';
     TagComponent,
     ArraySortPipe,
     filterVisibilePipe,
+    filterUncheckedPipe,
     CreatePostComponent,
     ShowPostComponent,
-    RegistrazioneComponent
+    RegistrazioneComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,

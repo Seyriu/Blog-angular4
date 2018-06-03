@@ -47,6 +47,20 @@ export class HttpService {
     )
   }
 
+  public loadCommenti(): Observable<Commento[]> {
+    return this._httpClient.get<any[]>(
+      'http://localhost:8080/blog/rest/commenti'
+    ).pipe(
+      map(commentiDTO => {
+        var commenti: Commento[] = [];
+        commentiDTO.forEach((cDTO: any) => {
+          commenti.push(this._utilities.commentoDTOToCommento(cDTO));
+        });
+        return commenti;
+      })
+    )
+  }
+
   public loadCategorie(): Observable<Categoria[]> {
     return this._httpClient.get<any[]>(
       'http://localhost:8080/blog/rest/categorie'

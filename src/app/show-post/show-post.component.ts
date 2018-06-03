@@ -60,7 +60,7 @@ export class ShowPostComponent implements OnInit {
         this.utilities.dateToString(new Date()),
         null,
         null,
-        false,
+        'unchecked',
         this.post,
         this.utente
       );

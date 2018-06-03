@@ -8,7 +8,7 @@ export class Commento {
     public dataInserimentoAsString: string,
     public dataRispostaAsString: string,
     public risposta: string,
-    public visibile: boolean,
+    public visibile: string,
     public post: Post,
     public utente: Utente
   ) {}

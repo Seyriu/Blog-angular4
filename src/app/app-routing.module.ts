@@ -6,6 +6,7 @@ import { TagComponent } from './tag/tag.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ShowPostComponent } from './show-post/show-post.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -14,7 +15,8 @@ const appRoutes: Routes = [
   {path: 'posts/:id', component: ShowPostComponent},
   {path: 'categorie/:id', component: CategoriaComponent},
   {path: 'tags/:id', component: TagComponent},
-  {path: 'registrazione', component: RegistrazioneComponent}
+  {path: 'registrazione', component: RegistrazioneComponent},
+  {path: 'admin', component: AdminPageComponent}
 ];
 
 @NgModule({

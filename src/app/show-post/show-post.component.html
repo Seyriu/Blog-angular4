@@ -12,7 +12,8 @@
     <div class="row">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">{{ post?.titolo }} - {{ utilities.stringToDate(post?.dataPostAsString)| date: 'MM/dd/yyyy'
+          <h3 class="panel-title">{{ post?.titolo }} - {{ utilities.stringToDate(post?.dataPostAsString)| date:
+            'MM/dd/yyyy'
             }}</h3>
         </div>
         <div class="panel-body">
@@ -24,28 +25,32 @@
         </div>
         <div *ngIf="utente">
           <div class="media col-md-offset-2" *ngFor="let commento of post?.commenti">
-            <div class="media-left">
-              <a href="#">
-                <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
-              </a>
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
-              <p>{{ commento?.testo }}</p>
-            </div>
 
-
-            <div class="media col-md-offset-1" *ngIf="commento?.risposta">
+            <div *ngIf="commento.visibile === 'true'">
               <div class="media-left">
                 <a href="#">
                   <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
                 </a>
               </div>
               <div class="media-body">
-                <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString )| date:
-                  'MM/dd/yyyy' }}</h4>
-                <p>{{ commento?.risposta }}</p>
+                <h4 class="media-heading">{{ commento?.utente.email }} - {{
+                  utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
+                <p>{{ commento?.testo }}</p>
+              </div>
+
+
+              <div class="media col-md-offset-1" *ngIf="commento?.risposta">
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
+                    )| date:
+                    'MM/dd/yyyy' }}</h4>
+                  <p>{{ commento?.risposta }}</p>
+                </div>
               </div>
             </div>
 
