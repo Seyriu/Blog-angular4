@@ -41,4 +41,13 @@ export class AdminPageComponent implements OnInit {
   setCommento(commento: Commento) {
     this.commento = commento;
   }
+
+  updateVisibility(commento: Commento) {
+    commento.visibile = 'true';
+    this.http.updateComment(commento).subscribe(
+      (callResult: boolean) => {
+        console.log(callResult);
+      }
+    );
+  }
 }

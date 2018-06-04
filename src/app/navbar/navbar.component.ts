@@ -16,74 +16,85 @@ export class NavbarComponent implements OnInit {
   loginForm: FormGroup;
   jwt: string;
   isUserLoggedIn: boolean = false;
+  accediButtonIsClicked = false;
 
   constructor(private http: HttpService,
               public login: LoginService) {
   }
 
   ngOnInit() {
+    if (this.login.loggedIn) {
+      this.isUserLoggedIn = this.login.loggedIn;
+      this.utente = this.login.utente;
+      this.jwt = this.login.jwt;
+    }
+
     this.http.loadCategorie().subscribe(
       (categorie: Categoria[]) => {
         this.categorie = categorie;
       });
 
-      this.login.loginUpdated.subscribe((isLoggedIn: boolean) => {
-        this.isUserLoggedIn = isLoggedIn;
-      });
+    this.login.loginUpdated.subscribe((isLoggedIn: boolean) => {
+      this.isUserLoggedIn = isLoggedIn;
+    });
 
     this.login.utenteUpdated.subscribe((utente: Utente) => {
       this.utente = utente;
     });
 
-      this.loginForm = new FormGroup({
-        'email': new FormControl(null, [Validators.required, Validators.email]),
-        'password': new FormControl(null,
-          [
-            Validators.required,
-            Validators.minLength(4)
-          ]),
-      });
+    this.login.jwtUpdated.subscribe((jwt: string) => {
+      this.jwt = jwt;
+    });
 
-      if (localStorage.getItem('blogJwt')) {
-        this.jwt = localStorage.getItem('blogJwt');
-        this.utente = JSON.parse(localStorage.getItem('savedUser'));
-        this.login.setLoggedInAndUser(true, this.utente);
-      }
-    }
-
-    onSubmit() {
-      if (this.loginForm.valid) {
-        this.login.login(
-          this.loginForm.get('email').value,
-          this.loginForm.get('password').value
-        )
-          .subscribe(
-            (result: any) => {
-
-              this.login.setLoggedIn(<boolean> result);
-              if (result) {
-                this.utente = result;
-                this.login.utente = this.utente;
-                this.jwt = this.login.jwt;
-                localStorage.setItem('blogJwt', this.login.jwt);
-                localStorage.setItem('savedUser', JSON.stringify(result));
-              }
-            },
-            err => {
-              this.login.setLoggedInAndUser(false, null);
-            }
-          );
-        this.loginForm.reset();
-      } else {
-        this.login.setLoggedInAndUser(false, null);
-      }
-    }
-
-    esci()
-    {
-      this.login.setLoggedInAndUser(false, null);
-      localStorage.removeItem("blogJwt");
-      localStorage.removeItem("savedUser");
-    }
+    this.loginForm = new FormGroup({
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'password': new FormControl(null,
+        [
+          Validators.required,
+          Validators.minLength(4)
+        ]),
+    });
 
   }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.login.login(
+        this.loginForm.get('email').value,
+        this.loginForm.get('password').value
+      )
+        .subscribe(
+          (isLoggedIn: boolean) => {
+            if (isLoggedIn) {
+              this.login.loadUser(+this.login.id, this.login.jwt).subscribe(
+                (utente: Utente) => {
+                  this.utente = utente;
+                  localStorage.setItem('savedUser', JSON.stringify(utente));
+                  this.login.utente = this.utente;
+                });
+            }
+          },
+          err => {
+            this.login.setLoggedInAndUser(false, null);
+          }
+        );
+      this.loginForm.reset();
+    } else {
+      this.login.setLoggedInAndUser(false, null);
+    }
+  }
+
+  accediButtonClicked() {
+    this.accediButtonIsClicked = true;
+    window.setTimeout(() => {
+      this.accediButtonIsClicked = false;
+    }, 3000);
+  }
+
+  esci() {
+    this.login.setLoggedInAndUser(false, null);
+    localStorage.removeItem("blogJwt");
+    localStorage.removeItem("savedUser");
+  }
+
+}

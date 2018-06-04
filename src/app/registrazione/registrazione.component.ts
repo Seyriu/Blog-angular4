@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
 import { LoginService } from '../services/login.service';
 import { UtilitiesService } from '../services/utilities.service';
+import { Ruolo } from '../models/ruolo.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrazione',
@@ -15,7 +17,8 @@ export class RegistrazioneComponent implements OnInit {
   utenteInserito: string;
 
   constructor(public login: LoginService,
-              private utilities: UtilitiesService) {
+              private utilities: UtilitiesService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,16 +38,19 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   onSubmitNewUser() {
+    const email: string = this.regForm.get('emailSU').value;
+    const password: string = this.regForm.get('passwordSU').value;
+
     this.utente = new Utente(
       null,
-      this.regForm.get('emailSU').value,
-      this.regForm.get('passwordSU').value,
+      email,
+      password,
       false,
       false,
       0,
       this.utilities.dateToString(new Date()),
       this.utilities.dateToString(new Date()),
-      null//new Ruolo(3, "utente"),
+      new Ruolo(3, "utente"),
     );
     if (this.regForm.valid) {
       this.login.newUser(this.utente).subscribe((result: boolean) => {
@@ -52,11 +58,34 @@ export class RegistrazioneComponent implements OnInit {
           this.utenteInserito = 'error';
         } else {
           this.utenteInserito = 'success';
+          this.logNewUserIn(email, password);
         }
       });
 
       this.regForm.reset();
     }
+  }
+
+  private logNewUserIn(email: string, password: string) {
+    this.login.login(
+      email,
+      password
+    )
+      .subscribe(
+        (isLoggedIn: boolean) => {
+          if (isLoggedIn) {
+            this.login.loadUser(+this.login.id, this.login.jwt).subscribe(
+              (utente: Utente) => {
+                localStorage.setItem('savedUser', JSON.stringify(utente));
+                this.login.utente = utente;
+                this.router.navigateByUrl('/home');
+              });
+          }
+        },
+        err => {
+          this.login.setLoggedInAndUser(false, null);
+        }
+      );
   }
 
   passwordsNotMatching(control?: FormControl): { [s: string]: boolean } {

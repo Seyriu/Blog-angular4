@@ -8,13 +8,15 @@ import { post } from 'selenium-webdriver/http';
 import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
 import { Categoria } from '../models/categoria.model';
+import { LoginService } from './login.service';
 
 @Injectable()
 export class HttpService {
   private _posts: any[] = null;
 
   constructor(private _httpClient: HttpClient,
-              private _utilities: UtilitiesService) {
+              private _utilities: UtilitiesService,
+              private _login: LoginService) {
   }
 
 
@@ -111,7 +113,8 @@ export class HttpService {
       JSON.stringify(post),
       {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
         }
       });
     return req;
@@ -123,6 +126,17 @@ export class HttpService {
       {
         headers: {
           'Content-Type': 'application/json'
+        }
+      });
+  }
+
+  updateComment(commento: Commento): Observable<boolean> {
+    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/' + commento.id,
+      JSON.stringify(commento),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
         }
       });
   }

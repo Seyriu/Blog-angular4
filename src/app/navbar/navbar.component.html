@@ -26,9 +26,22 @@
             </li>
           </ul>
         </li>
-        <li>
-          <a [routerLink]="['/crea-post']" *ngIf="utente?.ruolo.nome === 'administrator'">Crea Post</a>
+
+
+        <li class="dropdown" *ngIf="utente?.ruolo.nome === 'administrator'">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a [routerLink]="['/admin']">Amministrazione</a>
+            </li>
+            <li>
+              <a [routerLink]="['/crea-post']">Crea Post</a>
+            </li>
+          </ul>
         </li>
+
       </ul>
       <p class="navbar-text navbar-right" *ngIf="isUserLoggedIn">Bentornato, {{ utente?.email }}!</p>
       <div class="navbar-right navbar-form">
@@ -74,10 +87,9 @@
                    formControlName="password" required>
           </div>
           <div class="alert alert-success" *ngIf="isUserLoggedIn">Log in avvenuto con successo!</div>
-          <div class="alert alert-danger" *ngIf="!isUserLoggedIn">Errore nell'inserimento dei dati o user non ancora
-            loggato
+          <div class="alert alert-danger" *ngIf="!isUserLoggedIn && accediButtonIsClicked">Errore nell'inserimento dei dati
           </div>
-          <button type="submit" class="btn btn-success">Accedi</button>
+          <button type="submit" class="btn btn-success" (click)="accediButtonClicked()">Accedi</button>
         </form>
 
       </div>

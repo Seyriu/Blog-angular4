@@ -1,7 +1,102 @@
+<h1 class="text-center">Amministrazione</h1>
+
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Approva Commento
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+        <th>Nome Utente</th>
+        <th>Data Inserimento</th>
+        <th>Testo</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let commentoRef of commenti | filterUnchecked">
+          <td>{{ commentoRef?.utente.email }}</td>
+          <td>{{ utilities.stringToDate(commentoRef.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</td>
+          <td>{{ commentoRef?.testo }}</td>
+          <td>
+            <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#anteprima"
+                    (click)="setCommento(commentoRef)">
+              Anteprima
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="anteprima" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Anteprima Post</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ commento?.post.titolo }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-md-2">
+                <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
+              </div>
+              <div class="col-md-10">
+                <p>{{ commento?.post.descrizione }}</p>
+              </div>
+              <hr>
+            </div>
+
+            <div class="media col-md-offset-2">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{ commento?.utente.email }} - {{
+                  utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
+                <p>{{ commento?.testo }}</p>
+              </div>
+
+
+              <div class="media col-md-offset-1" *ngIf="commento?.risposta">
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
+                    )| date:
+                    'MM/dd/yyyy' }}</h4>
+                  <p>{{ commento?.risposta }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Elimina Commento</button>
+          <button type="submit" class="btn btn-success" (click)="updateVisibility(commento)">Pubblica Commento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class=" col-md-offset-3 col-md-6">
 
-    <div class="panel panel-default" style="margin-top: 80px;">
+    <div class="panel panel-default" style="margin-top: 10px;">
       <!-- Default panel contents -->
       <div class="panel-heading">Gestione Categorie</div>
 
@@ -41,11 +136,11 @@
         <div class="modal-body">
 
           <!--<form>-->
-            <div class="form-group">
-              <label for="addCategoria">Categoria</label>
-              <input type="text" class="form-control" formControlName="addCategoria" id="addCategoria"
-                     placeholder="Categoria">
-            </div>
+          <div class="form-group">
+            <label for="addCategoria">Categoria</label>
+            <input type="text" class="form-control" formControlName="addCategoria" id="addCategoria"
+                   placeholder="Categoria">
+          </div>
           <!--</form>-->
 
         </div>
@@ -60,119 +155,28 @@
 <div class="row">
 
   <div class=" col-md-offset-3 col-md-6">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Gestione Tag</div>
 
-    <!-- Table -->
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Tag</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let tag of tags">
-        <td>{{ tag.nome }}</td>
-        <td>
-          <button type="button" class="btn btn-danger pull-right">Remove</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="panel panel-default" style="margin-top: 10px;">
+      <!-- Default panel contents -->
+      <div class="panel-heading">Gestione Tag</div>
 
-</div>
-
-<div class="row">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Approva Commento
-    </div>
-    <div class="panel-body">
+      <!-- Table -->
       <table class="table">
         <thead>
-        <th>Nome Utente</th>
-        <th>Data Inserimento</th>
-        <th>Testo</th>
+        <tr>
+          <th>Tag</th>
+          <th></th>
+        </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let commentoRef of commenti | filterUnchecked">
-          <td>{{ commentoRef?.utente.email }}</td>
-          <td>{{ utilities.stringToDate(commentoRef.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</td>
-          <td>{{ commentoRef?.testo }}</td>
+        <tr *ngFor="let tag of tags">
+          <td>{{ tag.nome }}</td>
           <td>
-            <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#anteprima" (click)="setCommento(commentoRef)">
-              Anteprima
-            </button>
+            <button type="button" class="btn btn-danger pull-right">Remove</button>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="anteprima" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Anteprima Post</h4>
-        </div>
-        <div class="modal-body">
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">commento?.post.titolo</h3>
-            </div>
-            <div class="panel-body">
-              <div class="col-md-2">
-                <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
-              </div>
-              <div class="col-md-10">
-                <p>{{ commento?.post.descrizione }}</p>
-              </div>
-              <hr>
-            </div>
-
-            <div class="media col-md-offset-2">
-              <div class="media-left">
-                <a href="#">
-                  <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
-                </a>
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                  utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
-                <p>{{ commento?.testo }}</p>
-              </div>
-
-
-              <div class="media col-md-offset-1" *ngIf="commento?.risposta">
-                <div class="media-left">
-                  <a href="#">
-                    <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
-                  </a>
-                </div>
-                <div class="media-body">
-                  <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
-                    )| date:
-                    'MM/dd/yyyy' }}</h4>
-                  <p>{{ commento?.risposta }}</p>
-                </div>
-              </div>
-          </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Elimina Commento</button>
-          <button type="button" class="btn btn-success">Pubblica Commento</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>

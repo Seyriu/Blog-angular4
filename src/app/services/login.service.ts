@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs/index';
 import { Utente } from '../models/utente.model';
+import { map } from 'rxjs/internal/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,22 @@ export class LoginService {
   private _utente: Utente = null;
   public utenteUpdated = new Subject<Utente>();
   private _jwt: string;
+  public jwtUpdated = new Subject<string>();
   private _id: string;
 
   constructor(private _http: HttpClient) {
+    if (localStorage.getItem('blogJwt')) {
+      this._jwt = localStorage.getItem('blogJwt');
+      this._utente = JSON.parse(localStorage.getItem('savedUser'));
+      this._loggedIn = true;
+      this.utenteUpdated.next(this._utente);
+      this.loginUpdated.next(this._loggedIn);
+      this.jwtUpdated.next(this._jwt);
+    }
   }
 
-  login(email: string, password: string): Observable<any> {
-
-    this._http.get<String>('http://localhost:8080/blog/rest/login',
+  login(email: string, password: string): Observable<boolean> {
+    return this._http.get<String>('http://localhost:8080/blog/rest/login',
       {
         headers: {
           'Content-Type': 'application/json' as string,
@@ -27,18 +36,31 @@ export class LoginService {
           'email': email as string,
           'password': password as string,
         }
-      }).subscribe(jwt => {
-      this._jwt = jwt[0];
-      this._id = jwt[1];
-    });
-    const req = this._http.get<any>('http://localhost:8080/blog/rest/utenti/' + this._id,
+      }).pipe(
+      map(jwt => {
+          this.jwt = jwt[0];
+          this._id = jwt[1];
+          this.loggedIn = true;
+          return true;
+        },
+        err => {
+          this.jwt = "";
+          this._id = "";
+          this.loggedIn = false;
+          return false;
+        }
+      )
+    );
+  }
+
+  loadUser(id: number, jwt: string): Observable<Utente> {
+    return this._http.get<Utente>('http://localhost:8080/blog/rest/utenti/' + id,
       {
         headers: {
           'Content-Type': 'application/json',
-          'jwt': this._jwt as string,
+          'jwt': jwt,
         }
       })
-    return req;
   }
 
   newUser(utente: Utente): Observable<boolean> {
@@ -46,15 +68,15 @@ export class LoginService {
     return this._http.post<boolean>('http://localhost:8080/blog/rest/utenti',
       jsonUtente,
       {
-        headers: { 'Content-Type': 'application/json' }
+        headers: {'Content-Type': 'application/json'}
       });
   }
 
-  getLoggedIn(): boolean {
+  get loggedIn(): boolean {
     return this._loggedIn;
   }
 
-  setLoggedIn(value: boolean) {
+  set loggedIn(value: boolean) {
     this._loggedIn = value;
     this.loginUpdated.next(this._loggedIn);
   }
@@ -68,19 +90,40 @@ export class LoginService {
 
 
   get utente(): Utente {
+    if (localStorage.getItem('blogJwt')) {
+      this._jwt = localStorage.getItem('blogJwt');
+      this._utente = JSON.parse(localStorage.getItem('savedUser'));
+      this._loggedIn = true;
+    }
     return this._utente;
   }
 
   set utente(value: Utente) {
     this._utente = value;
     this.utenteUpdated.next(this._utente);
+    localStorage.setItem('savedUser', JSON.stringify(value));
   }
 
   get jwt(): string {
+    if (localStorage.getItem('blogJwt')) {
+      this._jwt = localStorage.getItem('blogJwt');
+      this._utente = JSON.parse(localStorage.getItem('savedUser'));
+      this._loggedIn = true;
+    }
     return this._jwt;
   }
 
   set jwt(value: string) {
+    localStorage.setItem('blogJwt', value);
+    this.jwtUpdated.next(value);
     this._jwt = value;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value;
   }
 }
