@@ -119,11 +119,21 @@ export class UtilitiesService {
   }
 
   public categoriaDTOToCategoria(cDTO: any): Categoria {
+
+    let posts: Post[] = [];
+    if (cDTO.posts) {
+      cDTO.posts.forEach(
+        pDTO => {
+          posts.push(this.postDTOToPost(pDTO));
+        });
+    }
+
     const cat = new Categoria(
       cDTO.id,
       cDTO.nome,
       cDTO.descrizione,
-      cDTO.immagine
+      cDTO.immagine,
+      posts
     );
     return cat;
   }

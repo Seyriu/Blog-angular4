@@ -130,9 +130,39 @@ export class HttpService {
       });
   }
 
-  updateComment(commento: Commento): Observable<boolean> {
-    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/' + commento.id,
-      JSON.stringify(commento),
+  updateVisibility(visibility: string, id: number): Observable<boolean> {
+    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/' + id,
+      visibility,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
+        }
+      });
+  }
+
+  deleteCommento(id: number): Observable<boolean> {
+    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/commenti/' + id,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
+        }
+      });
+  }
+
+  deleteTag(id: number): Observable<boolean> {
+    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/tags/' + id,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
+        }
+      });
+  }
+
+  deleteCategoria(id: number): Observable<boolean> {
+    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/categorie/' + id,
       {
         headers: {
           'Content-Type': 'application/json',

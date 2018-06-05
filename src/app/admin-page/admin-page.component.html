@@ -85,8 +85,8 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Elimina Commento</button>
-          <button type="submit" class="btn btn-success" (click)="updateVisibility(commento)">Pubblica Commento</button>
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="deleteCommento(commento.id)">Elimina Commento</button>
+          <button type="submit" class="btn btn-success" data-dismiss="modal" (click)="updateVisibility(commento)">Pubblica Commento</button>
         </div>
       </div>
     </div>
@@ -115,7 +115,7 @@
         <tr *ngFor="let categoria of categorie">
           <td>{{ categoria.nome }}</td>
           <td>
-            <button type="button" class="btn btn-danger pull-right">Remove</button>
+            <button type="button" class="btn btn-danger pull-right" (click)="deleteCategoria(categoria.id)">Remove</button>
           </td>
         </tr>
         </tbody>
@@ -172,7 +172,7 @@
         <tr *ngFor="let tag of tags">
           <td>{{ tag.nome }}</td>
           <td>
-            <button type="button" class="btn btn-danger pull-right">Remove</button>
+            <button type="button" class="btn btn-danger pull-right" (click)="deleteTag(tag.id)">Remove</button>
           </td>
         </tr>
         </tbody>

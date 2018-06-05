@@ -43,11 +43,62 @@ export class AdminPageComponent implements OnInit {
   }
 
   updateVisibility(commento: Commento) {
-    commento.visibile = 'true';
-    this.http.updateComment(commento).subscribe(
+    this.http.updateVisibility('true', commento.id).subscribe(
       (callResult: boolean) => {
         console.log(callResult);
+        if(callResult) {
+          this.http.loadCommenti().subscribe(
+            (commenti: Commento[]) => {
+              this.commenti = commenti;
+            }
+          );
+        }
       }
     );
+  }
+
+  deleteCommento(id: number) {
+    this.http.deleteCommento(id).subscribe(
+      (callResult: boolean) => {
+        console.log(callResult);
+        if(callResult) {
+          this.http.loadCommenti().subscribe(
+            (commenti: Commento[]) => {
+              this.commenti = commenti;
+            }
+          );
+        }
+      }
+    )
+  }
+
+  deleteTag(id: number) {
+    this.http.deleteTag(id).subscribe(
+      (callResult: boolean) => {
+        console.log(callResult);
+        if(callResult) {
+          this.http.loadTags().subscribe(
+            (tags: Tag[]) => {
+              this.tags = tags;
+            }
+          );
+        }
+      }
+    )
+  }
+
+  deleteCategoria(id: number) {
+    this.http.deleteCategoria(id).subscribe(
+      (callResult: boolean) => {
+        console.log(callResult);
+        if(callResult) {
+          this.http.loadCategorie().subscribe(
+            (categorie: Categoria[]) => {
+              this.categorie = categorie;
+            }
+          );
+        }
+      }
+    )
   }
 }

@@ -7,7 +7,7 @@
       <label>Pubblicato il {{ utilities.stringToDate(post.dataPostAsString)| date: 'MM/dd/yyyy' }}</label>
       <hr>
       <p>
-        <a [routerLink]="['/posts', post.id]" class="btn btn-default" role="button">Leggi il post</a>
+        <button [routerLink]="['/posts', post.id]" class="btn btn-default" role="button" [disabled]="utente === null">Leggi il post</button>
       </p>
     </div>
   </div>
