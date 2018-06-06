@@ -86,8 +86,11 @@
             <input type="password" class="form-control" id="password" placeholder="Password"
                    formControlName="password" required>
           </div>
-          <div class="alert alert-success" *ngIf="isUserLoggedIn">Log in avvenuto con successo!</div>
-          <div class="alert alert-danger" *ngIf="!isUserLoggedIn && accediButtonIsClicked">Errore nell'inserimento dei dati
+          <div class="alert alert-success" *ngIf="detectUserLogin === 'true'">Log in avvenuto con successo!</div>
+          <div class="alert alert-danger" *ngIf="(detectUserLogin === 'false') && accediButtonIsClicked">
+            <ul>
+              <li *ngFor="let err of errMsg">{{ err }}</li>
+            </ul>
           </div>
           <button type="submit" class="btn btn-success" (click)="accediButtonClicked()">Accedi</button>
         </form>

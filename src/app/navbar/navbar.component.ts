@@ -4,6 +4,7 @@ import { LoginService } from '../services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
 import { Categoria } from '../models/categoria.model';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,10 @@ export class NavbarComponent implements OnInit {
   jwt: string;
   isUserLoggedIn: boolean = false;
   accediButtonIsClicked = false;
+  errMsg: string[] = [];
+
+  // if user is still logged out, detect when the user will be logged in (asynchronously)
+  detectUserLogin: string = '';
 
   constructor(private http: HttpService,
               public login: LoginService) {
@@ -71,16 +76,29 @@ export class NavbarComponent implements OnInit {
                   this.utente = utente;
                   localStorage.setItem('savedUser', JSON.stringify(utente));
                   this.login.utente = this.utente;
+                  this.detectUserLogin = 'true';
+                  $('#accessoClose').click();
                 });
             }
           },
           err => {
+            this.errMsg = [];
+            this.detectUserLogin = 'false';
+            this.errMsg.push('Nome  utente / password incorretti');
             this.login.setLoggedInAndUser(false, null);
           }
         );
       this.loginForm.reset();
     } else {
+      this.errMsg = [];
+      this.detectUserLogin = 'false';
       this.login.setLoggedInAndUser(false, null);
+      if (!this.loginForm.get('email').valid) {
+        this.errMsg.push('Email non valida!');
+      }
+      if (!this.loginForm.get('password').valid) {
+        this.errMsg.push('Password non valida!');
+      }
     }
   }
 
@@ -93,6 +111,8 @@ export class NavbarComponent implements OnInit {
 
   esci() {
     this.login.setLoggedInAndUser(false, null);
+    this.detectUserLogin = '';
+    this.errMsg = [];
     localStorage.removeItem("blogJwt");
     localStorage.removeItem("savedUser");
   }
