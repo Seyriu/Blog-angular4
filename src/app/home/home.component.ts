@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
 import { Post } from '../models/post.model';
+import { PostService } from '../services/post.service';
+import { TagService } from '../services/tag.service';
+import { Tag } from '../models/tag.model';
 
 @Component({
   selector: 'app-home',
@@ -11,19 +13,26 @@ export class HomeComponent implements OnInit {
   posts: any[];
   tags: any[];
 
-  constructor(private http: HttpService) { }
+  constructor(private pSvc: PostService,
+              private tSvc: TagService
+              ) { }
 
   ngOnInit() {
-    this.http.loadPosts().subscribe(
+    this.pSvc.loadPosts().subscribe(
       (posts: Post[]) => {
         this.posts = posts;
       });
 
-      this.http.loadTags().subscribe(
-        (tags: any[])=> {
-          this.tags=tags;
-        }
-      );
+    this.tSvc.loadTags().subscribe(
+      (tags: Tag[]) => {
+        this.tSvc.tags = tags;
+        this.tags = tags;
+      }
+    );
+
+    this.tSvc.tagsUpdated.subscribe((tags: Tag[]) => {
+      this.tags = tags;
+    });
   }
 
 }

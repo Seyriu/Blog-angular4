@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { UtilitiesService } from '../services/utilities.service';
 import { Commento } from '../models/commento.model';
@@ -7,6 +6,10 @@ import { Utente } from '../models/utente.model';
 import { Post } from '../models/post.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
+import { PostService } from '../services/post.service';
+import { Tag } from '../models/tag.model';
+import { TagService } from '../services/tag.service';
+import { CommentoService } from '../services/commento.service';
 
 @Component({
   selector: 'app-show-post',
@@ -20,7 +23,9 @@ export class ShowPostComponent implements OnInit {
   utente: Utente;
   commentForm: FormGroup;
 
-  constructor(private http: HttpService,
+  constructor(private pSvc: PostService,
+              private tSvc: TagService,
+              private coSvc: CommentoService,
               private route: ActivatedRoute,
               public utilities: UtilitiesService,
               public login: LoginService) {
@@ -29,7 +34,7 @@ export class ShowPostComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
-      this.http.loadPost(this.id).subscribe(
+      this.pSvc.loadPost(this.id).subscribe(
         (post: Post) => {
           this.post = post;
         });
@@ -40,11 +45,16 @@ export class ShowPostComponent implements OnInit {
       this.utente = utente;
     });
 
-    this.http.loadTags().subscribe(
-      (tags: any[]) => {
+    this.tSvc.loadTags().subscribe(
+      (tags: Tag[]) => {
+        this.tSvc.tags = tags;
         this.tags = tags;
       }
     );
+
+    this.tSvc.tagsUpdated.subscribe((tags: Tag[]) => {
+      this.tags = tags;
+    });
 
     this.commentForm = new FormGroup({
       'commentoPost': new FormControl(null)
@@ -65,7 +75,7 @@ export class ShowPostComponent implements OnInit {
         this.utente
       );
 
-      this.http.insertComment(commento).subscribe(
+      this.coSvc.insertComment(commento).subscribe(
         result => {
           console.log(result);
         }

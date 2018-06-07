@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Tag } from '../models/tag.model';
+import { TagService } from '../services/tag.service';
 
 @Component({
   selector: 'app-tag',
@@ -14,22 +14,27 @@ export class TagComponent implements OnInit {
   id: number;
   tags: any[];
 
-  constructor(private http: HttpService, private route: ActivatedRoute) { }
+  constructor(private tSvc: TagService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
-      this.http.loadTag(this.id).subscribe(
+      this.tSvc.loadTag(this.id).subscribe(
         (tag: Tag) => {
           this.mainTag = tag;
         });
     });
 
-    this.http.loadTags().subscribe(
+    this.tSvc.loadTags().subscribe(
       (tags: Tag[]) => {
+        this.tSvc.tags = tags;
         this.tags = tags;
       }
     );
+
+    this.tSvc.tagsUpdated.subscribe((tags: Tag[]) => {
+      this.tags = tags;
+    });
   }
 
 }

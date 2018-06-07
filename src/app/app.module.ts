@@ -6,8 +6,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PostTileComponent } from './post-tile/post-tile.component';
-import { HttpService } from './services/http.service';
-import { HttpClientModule } from '@angular/common/http';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { TagComponent } from './tag/tag.component';
 import { ArraySortPipe } from './pipes/sort.pipe';
@@ -18,6 +16,13 @@ import { RegistrazioneComponent } from './registrazione/registrazione.component'
 import { filterVisibilePipe } from './pipes/filterVisibile.pipe';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { filterUncheckedPipe } from './pipes/filterUnchecked.pipe';
+import { CategoriaService } from './services/categoria.service';
+import { CommentoService } from './services/commento.service';
+import { LoginService } from './services/login.service';
+import { TagService } from './services/tag.service';
+import { UtilitiesService } from './services/utilities.service';
+import { PostService } from './services/post.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,12 @@ import { filterUncheckedPipe } from './pipes/filterUnchecked.pipe';
     HttpClientModule
   ],
   providers: [
-    HttpService
+    CategoriaService,
+    CommentoService,
+    LoginService,
+    PostService,
+    TagService,
+    UtilitiesService
     ],
   bootstrap: [AppComponent]
 })

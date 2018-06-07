@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
 import { LoginService } from '../services/login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
 import { Categoria } from '../models/categoria.model';
 import * as $ from 'jquery';
+import { CategoriaService } from '../services/categoria.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +24,8 @@ export class NavbarComponent implements OnInit {
   // if user is still logged out, detect when the user will be logged in (asynchronously)
   detectUserLogin: string = '';
 
-  constructor(private http: HttpService,
+  constructor(private cSvc: CategoriaService,
+              private router: Router,
               public login: LoginService) {
   }
 
@@ -33,11 +35,15 @@ export class NavbarComponent implements OnInit {
       this.utente = this.login.utente;
       this.jwt = this.login.jwt;
     }
-
-    this.http.loadCategorie().subscribe(
+    this.cSvc.loadCategorie().subscribe(
       (categorie: Categoria[]) => {
+        this.cSvc.categorie = categorie;
         this.categorie = categorie;
       });
+
+    this.cSvc.categorieUpdated.subscribe((cat: Categoria[]) => {
+      this.categorie = cat;
+    });
 
     this.login.loginUpdated.subscribe((isLoggedIn: boolean) => {
       this.isUserLoggedIn = isLoggedIn;
@@ -115,6 +121,7 @@ export class NavbarComponent implements OnInit {
     this.errMsg = [];
     localStorage.removeItem("blogJwt");
     localStorage.removeItem("savedUser");
+    this.router.navigateByUrl('/home');
   }
 
 }

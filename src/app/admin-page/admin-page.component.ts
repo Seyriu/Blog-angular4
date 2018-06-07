@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Categoria } from '../models/categoria.model';
 import { Tag } from '../models/tag.model';
-import { HttpService } from '../services/http.service';
 import { Commento } from '../models/commento.model';
 import { UtilitiesService } from '../services/utilities.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CategoriaService } from '../services/categoria.service';
+import { TagService } from '../services/tag.service';
+import { CommentoService } from '../services/commento.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -19,27 +21,44 @@ export class AdminPageComponent implements OnInit {
   commento: Commento = null;
   errMsg: string = "";
 
-  constructor(private http: HttpService,
+  constructor(private cSvc: CategoriaService,
+              private tSvc: TagService,
+              private coSvc: CommentoService,
               public utilities: UtilitiesService) {
   }
 
   ngOnInit() {
-    this.http.loadCategorie().subscribe(
+    this.cSvc.loadCategorie().subscribe(
       (categorie: Categoria[]) => {
+        this.cSvc.categorie = categorie;
         this.categorie = categorie;
       });
 
-    this.http.loadTags().subscribe(
+    this.cSvc.categorieUpdated.subscribe((cat: Categoria[]) => {
+      this.categorie = cat;
+    });
+
+    this.tSvc.loadTags().subscribe(
       (tags: Tag[]) => {
+        this.tSvc.tags = tags;
         this.tags = tags;
       }
     );
 
-    this.http.loadCommenti().subscribe(
+    this.tSvc.tagsUpdated.subscribe((tags: Tag[]) => {
+      this.tags = tags;
+    });
+
+    this.coSvc.loadCommenti().subscribe(
       (commenti: Commento[]) => {
+        this.coSvc.commenti = commenti;
         this.commenti = commenti;
       }
     );
+
+    this.coSvc.commentiUpdated.subscribe((commenti: Commento[]) => {
+      this.commenti = commenti;
+    });
 
     this.newCategoryForm = new FormGroup({
       'nomeCat': new FormControl(null, [
@@ -59,12 +78,12 @@ export class AdminPageComponent implements OnInit {
         this.newCategoryForm.get('imgCat').value,
         null
       )
-      this.http.insertCategory(cat)
+      this.cSvc.insertCategoria(cat)
         .subscribe(
           (result: boolean) => {
             console.log(result);
             if (result) {
-              this.http.loadCategorie().subscribe(
+              this.cSvc.loadCategorie().subscribe(
                 (categorie: Categoria[]) => {
                   this.categorie = categorie;
                   $('#catModalClose').click();
@@ -88,11 +107,11 @@ export class AdminPageComponent implements OnInit {
   }
 
   updateVisibility(commento: Commento) {
-    this.http.updateVisibility('true', commento.id).subscribe(
+    this.coSvc.updateVisibility('true', commento.id).subscribe(
       (callResult: boolean) => {
         console.log(callResult);
         if (callResult) {
-          this.http.loadCommenti().subscribe(
+          this.coSvc.loadCommenti().subscribe(
             (commenti: Commento[]) => {
               this.commenti = commenti;
             }
@@ -103,11 +122,11 @@ export class AdminPageComponent implements OnInit {
   }
 
   deleteCommento(id: number) {
-    this.http.deleteCommento(id).subscribe(
+    this.coSvc.deleteCommento(id).subscribe(
       (callResult: boolean) => {
         console.log(callResult);
         if (callResult) {
-          this.http.loadCommenti().subscribe(
+          this.coSvc.loadCommenti().subscribe(
             (commenti: Commento[]) => {
               this.commenti = commenti;
             }
@@ -118,11 +137,11 @@ export class AdminPageComponent implements OnInit {
   }
 
   deleteTag(id: number) {
-    this.http.deleteTag(id).subscribe(
+    this.tSvc.deleteTag(id).subscribe(
       (callResult: boolean) => {
         console.log(callResult);
         if (callResult) {
-          this.http.loadTags().subscribe(
+          this.tSvc.loadTags().subscribe(
             (tags: Tag[]) => {
               this.tags = tags;
             }
@@ -133,11 +152,11 @@ export class AdminPageComponent implements OnInit {
   }
 
   deleteCategoria(id: number) {
-    this.http.deleteCategoria(id).subscribe(
+    this.cSvc.deleteCategoria(id).subscribe(
       (callResult: boolean) => {
         console.log(callResult);
         if (callResult) {
-          this.http.loadCategorie().subscribe(
+          this.cSvc.loadCategorie().subscribe(
             (categorie: Categoria[]) => {
               this.categorie = categorie;
             }

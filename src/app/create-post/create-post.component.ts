@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../services/http.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Categoria } from '../models/categoria.model';
 import { Utente } from '../models/utente.model';
 import { LoginService } from '../services/login.service';
-import { post } from 'selenium-webdriver/http';
 import { Post } from '../models/post.model';
 import { UtilitiesService } from '../services/utilities.service';
 import { Tag } from '../models/tag.model';
-import { Commento } from '../models/commento.model';
+import { CategoriaService } from '../services/categoria.service';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -26,8 +25,9 @@ export class CreatePostComponent implements OnInit {
   categorie: Categoria[];
 
 
-  constructor(private http: HttpService,
+  constructor(private cSvc: CategoriaService,
               private login: LoginService,
+              private pSvc: PostService,
               private utilities: UtilitiesService) {
   }
 
@@ -38,11 +38,16 @@ export class CreatePostComponent implements OnInit {
       this.utente = utente;
     });
 
-    this.http.loadCategorie().subscribe(
+    this.cSvc.loadCategorie().subscribe(
       (categorie: Categoria[]) => {
+        this.cSvc.categorie = categorie;
         this.categorie = categorie;
         this._categoria = categorie[0];
       });
+
+    this.cSvc.categorieUpdated.subscribe((cat: Categoria[]) => {
+      this.categorie = cat;
+    });
 
     this.postForm = new FormGroup({
       'titoloPost': new FormControl(null, [Validators.required]),
@@ -95,7 +100,7 @@ export class CreatePostComponent implements OnInit {
         this.getHashTags(this.postForm.get("testoPost").value)
       );
 
-      this.http.insertPost(this.post).subscribe(
+      this.pSvc.insertPost(this.post).subscribe(
         result => {
           console.log(result);
         }
