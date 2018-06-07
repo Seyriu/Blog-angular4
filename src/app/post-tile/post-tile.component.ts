@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { UtilitiesService } from '../services/utilities.service';
 import { Post } from '../models/post.model';
 import { Utente } from '../models/utente.model';
-import { LoginService } from '../services/login.service';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { Subscription } from 'rxjs/index';
 
 @Component({
@@ -16,7 +16,7 @@ export class PostTileComponent implements OnInit, OnDestroy {
   utenteSub: Subscription;
 
   constructor(public utilities: UtilitiesService,
-              private login: LoginService) { }
+              private login: UtenteAndLoginService) { }
 
   ngOnInit() {
     this.utente = this.login.utente;

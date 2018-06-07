@@ -5,7 +5,7 @@ import { Commento } from '../models/commento.model';
 import { Utente } from '../models/utente.model';
 import { Post } from '../models/post.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { PostService } from '../services/post.service';
 import { Tag } from '../models/tag.model';
 import { TagService } from '../services/tag.service';
@@ -28,7 +28,7 @@ export class ShowPostComponent implements OnInit {
               private coSvc: CommentoService,
               private route: ActivatedRoute,
               public utilities: UtilitiesService,
-              public login: LoginService) {
+              public login: UtenteAndLoginService) {
   }
 
   ngOnInit() {

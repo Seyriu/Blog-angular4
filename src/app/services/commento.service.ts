@@ -8,7 +8,7 @@ import { post } from 'selenium-webdriver/http';
 import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
 import { Categoria } from '../models/categoria.model';
-import { LoginService } from './login.service';
+import { UtenteAndLoginService } from './utente-and-login.service';
 
 @Injectable()
 export class CommentoService {
@@ -17,7 +17,7 @@ export class CommentoService {
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
-              private _login: LoginService) {
+              private _login: UtenteAndLoginService) {
   }
 
   public loadCommenti(): Observable<Commento[]> {

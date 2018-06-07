@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Categoria } from '../models/categoria.model';
 import { Utente } from '../models/utente.model';
-import { LoginService } from '../services/login.service';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { Post } from '../models/post.model';
 import { UtilitiesService } from '../services/utilities.service';
 import { Tag } from '../models/tag.model';
@@ -26,7 +26,7 @@ export class CreatePostComponent implements OnInit {
 
 
   constructor(private cSvc: CategoriaService,
-              private login: LoginService,
+              private login: UtenteAndLoginService,
               private pSvc: PostService,
               private utilities: UtilitiesService) {
   }

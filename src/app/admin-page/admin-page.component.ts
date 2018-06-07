@@ -86,6 +86,7 @@ export class AdminPageComponent implements OnInit {
               this.cSvc.loadCategorie().subscribe(
                 (categorie: Categoria[]) => {
                   this.categorie = categorie;
+                  this.cSvc.categorie = categorie;
                   $('#catModalClose').click();
                 });
             }
@@ -129,6 +130,7 @@ export class AdminPageComponent implements OnInit {
           this.coSvc.loadCommenti().subscribe(
             (commenti: Commento[]) => {
               this.commenti = commenti;
+              this.coSvc.commenti = commenti;
             }
           );
         }
@@ -144,6 +146,7 @@ export class AdminPageComponent implements OnInit {
           this.tSvc.loadTags().subscribe(
             (tags: Tag[]) => {
               this.tags = tags;
+              this.tSvc.tags = tags;
             }
           );
         }
@@ -159,6 +162,7 @@ export class AdminPageComponent implements OnInit {
           this.cSvc.loadCategorie().subscribe(
             (categorie: Categoria[]) => {
               this.categorie = categorie;
+              this.cSvc.categorie = categorie;
             }
           );
         }

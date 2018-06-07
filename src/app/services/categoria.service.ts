@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
-import { LoginService } from './login.service';
+import { UtenteAndLoginService } from './utente-and-login.service';
 import { Categoria } from '../models/categoria.model';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class CategoriaService {
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
-              private _login: LoginService) {
+              private _login: UtenteAndLoginService) {
   }
 
   public loadCategorie(): Observable<Categoria[]> {

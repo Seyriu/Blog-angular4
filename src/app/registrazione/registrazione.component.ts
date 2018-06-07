@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
-import { LoginService } from '../services/login.service';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { UtilitiesService } from '../services/utilities.service';
 import { Ruolo } from '../models/ruolo.model';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class RegistrazioneComponent implements OnInit {
   regForm: FormGroup;
   utenteInserito: string;
 
-  constructor(public login: LoginService,
+  constructor(public login: UtenteAndLoginService,
               private utilities: UtilitiesService,
               private router: Router) {
   }

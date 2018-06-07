@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
 import { Categoria } from '../models/categoria.model';
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private cSvc: CategoriaService,
               private router: Router,
-              public login: LoginService) {
+              public login: UtenteAndLoginService) {
   }
 
   ngOnInit() {

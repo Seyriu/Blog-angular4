@@ -7,7 +7,7 @@ import { map } from 'rxjs/internal/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class UtenteAndLoginService {
   private _loggedIn: boolean = false;
   public loginUpdated = new Subject<boolean>();
   private _utente: Utente = null;

@@ -18,11 +18,11 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { filterUncheckedPipe } from './pipes/filterUnchecked.pipe';
 import { CategoriaService } from './services/categoria.service';
 import { CommentoService } from './services/commento.service';
-import { LoginService } from './services/login.service';
 import { TagService } from './services/tag.service';
 import { UtilitiesService } from './services/utilities.service';
 import { PostService } from './services/post.service';
 import { HttpClientModule } from '@angular/common/http';
+import { UtenteAndLoginService } from './services/utente-and-login.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     CategoriaService,
     CommentoService,
-    LoginService,
+    UtenteAndLoginService,
     PostService,
     TagService,
     UtilitiesService

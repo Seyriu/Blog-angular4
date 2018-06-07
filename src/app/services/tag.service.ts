@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
-import { LoginService } from './login.service';
+import { UtenteAndLoginService } from './utente-and-login.service';
 
 @Injectable()
 export class TagService {
@@ -13,7 +13,7 @@ export class TagService {
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
-              private _login: LoginService) {
+              private _login: UtenteAndLoginService) {
   }
 
   public loadTags(): Observable<Tag[]> {
