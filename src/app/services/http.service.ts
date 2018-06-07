@@ -130,6 +130,19 @@ export class HttpService {
       });
   }
 
+  insertCategory(category: Categoria): Observable<boolean> {
+
+    const req = this._httpClient.post<boolean>('http://localhost:8080/blog/rest/categorie',
+      JSON.stringify(category),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
+        }
+      });
+    return req;
+  }
+
   updateVisibility(visibility: string, id: number): Observable<boolean> {
     return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/' + id,
       visibility,

@@ -128,6 +128,8 @@
   <div class="modal fade" id="catModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+
+        <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmitNewCategory()">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>
@@ -135,18 +137,29 @@
         </div>
         <div class="modal-body">
 
-          <!--<form>-->
           <div class="form-group">
-            <label for="addCategoria">Categoria</label>
-            <input type="text" class="form-control" formControlName="addCategoria" id="addCategoria"
-                   placeholder="Categoria">
+            <label for="nomeCat">Nome</label>
+            <input type="text" id="nomeCat" class="form-control" formControlName="nomeCat"
+                   placeholder="Nome categoria" #nomeCat>
           </div>
-          <!--</form>-->
+            <div class="form-group">
+              <label for="descCat">Descrizione</label>
+              <input type="text" id="descCat" class="form-control" formControlName="descCat"
+                     placeholder="Descrizione">
+            </div>
+            <div class="form-group">
+              <label for="imgCat">Immagine</label>
+              <input type="text" id="imgCat" class="form-control" formControlName="imgCat"
+                     placeholder="percorso immagine">
+            </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success">Aggiungi</button>
+          <div class="alert alert-danger" *ngIf="(!newCategoryForm.get('nomeCat').valid) && newCategoryForm.get('nomeCat').touched">{{ errMsg }}</div>
+          <button type="submit" class="btn btn-success">Aggiungi</button>
         </div>
+        </form>
+
       </div>
     </div>
   </div>
