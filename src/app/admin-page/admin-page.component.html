@@ -19,7 +19,7 @@
           <td>{{ commentoRef?.testo }}</td>
           <td>
             <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#anteprima"
-                    (click)="setCommento(commentoRef)">
+                    (click)="setCommento(commentoRef); openCmtModal(cmtModalT);">
               Anteprima
             </button>
           </td>
@@ -30,67 +30,67 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="anteprima" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Anteprima Post</h4>
-        </div>
-        <div class="modal-body">
+  <ng-template #cmtModalT>
+          <div class="modal-header">
+            <button type="button" class="close" (click)="cmtModalRef.hide()" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Anteprima Post</h4>
+          </div>
+          <div class="modal-body">
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{ commento?.post.titolo }}</h3>
-            </div>
-            <div class="panel-body">
-              <div class="col-md-2">
-                <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{ commento?.post.titolo }}</h3>
               </div>
-              <div class="col-md-10">
-                <p>{{ commento?.post.descrizione }}</p>
-              </div>
-              <hr>
-            </div>
-
-            <div class="media col-md-offset-2">
-              <div class="media-left">
-                <a href="#">
-                  <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
-                </a>
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                  utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
-                <p>{{ commento?.testo }}</p>
+              <div class="panel-body">
+                <div class="col-md-2">
+                  <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
+                </div>
+                <div class="col-md-10">
+                  <p>{{ commento?.post.descrizione }}</p>
+                </div>
+                <hr>
               </div>
 
-
-              <div class="media col-md-offset-1" *ngIf="commento?.risposta">
+              <div class="media col-md-offset-2">
                 <div class="media-left">
                   <a href="#">
                     <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
                   </a>
                 </div>
                 <div class="media-body">
-                  <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
-                    )| date:
-                    'MM/dd/yyyy' }}</h4>
-                  <p>{{ commento?.risposta }}</p>
+                  <h4 class="media-heading">{{ commento?.utente.email }} - {{
+                    utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
+                  <p>{{ commento?.testo }}</p>
+                </div>
+
+
+                <div class="media col-md-offset-1" *ngIf="commento?.risposta">
+                  <div class="media-left">
+                    <a href="#">
+                      <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
+                      )| date:
+                      'MM/dd/yyyy' }}</h4>
+                    <p>{{ commento?.risposta }}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="deleteCommento(commento.id)">Elimina Commento</button>
-          <button type="submit" class="btn btn-success" data-dismiss="modal" (click)="updateVisibility(commento)">Pubblica Commento</button>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="deleteCommento(commento.id)">
+              Elimina Commento
+            </button>
+            <button type="submit" class="btn btn-success" data-dismiss="modal" (click)="updateVisibility(commento)">
+              Pubblica Commento
+            </button>
+          </div>
+  </ng-template>
 </div>
 
 <div class="row">
@@ -106,7 +106,7 @@
         <tr>
           <th>Categorie</th>
           <th>
-            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#catModal">Add
+            <button type="button" class="btn btn-success pull-right" (click)="openCatModal(catModalT)">Add
             </button>
           </th>
         </tr>
@@ -115,7 +115,8 @@
         <tr *ngFor="let categoria of categorie">
           <td>{{ categoria.nome }}</td>
           <td>
-            <button type="button" class="btn btn-danger pull-right" (click)="deleteCategoria(categoria.id)">Remove</button>
+            <button type="button" class="btn btn-danger pull-right" (click)="deleteCategoria(categoria.id)">Remove
+            </button>
           </td>
         </tr>
         </tbody>
@@ -125,44 +126,43 @@
 
 
   <!-- Modal -->
-  <div class="modal fade" id="catModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
+  <ng-template #catModalT>
 
-        <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmitNewCategory()">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Aggiungi Categoria</h4>
-        </div>
-        <div class="modal-body">
+    <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmitNewCategory()">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="catModalRef.hide()" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Aggiungi Categoria</h4>
+      </div>
+      <div class="modal-body">
 
-          <div class="form-group">
-            <label for="nomeCat">Nome</label>
-            <input type="text" id="nomeCat" class="form-control" formControlName="nomeCat"
-                   placeholder="Nome categoria" #nomeCat>
-          </div>
-            <div class="form-group">
-              <label for="descCat">Descrizione</label>
-              <input type="text" id="descCat" class="form-control" formControlName="descCat"
-                     placeholder="Descrizione">
-            </div>
-            <div class="form-group">
-              <label for="imgCat">Immagine</label>
-              <input type="text" id="imgCat" class="form-control" formControlName="imgCat"
-                     placeholder="percorso immagine">
-            </div>
-
+        <div class="form-group">
+          <label for="nomeCat">Nome</label>
+          <input type="text" id="nomeCat" class="form-control" formControlName="nomeCat"
+                 placeholder="Nome categoria" #nomeCat>
         </div>
-        <div class="modal-footer">
-          <div class="alert alert-danger" *ngIf="(!newCategoryForm.get('nomeCat').valid) && newCategoryForm.get('nomeCat').touched">{{ errMsg }}</div>
-          <button type="submit" class="btn btn-success">Aggiungi</button>
+        <div class="form-group">
+          <label for="descCat">Descrizione</label>
+          <input type="text" id="descCat" class="form-control" formControlName="descCat"
+                 placeholder="Descrizione">
         </div>
-        </form>
+        <div class="form-group">
+          <label for="imgCat">Immagine</label>
+          <input type="text" id="imgCat" class="form-control" formControlName="imgCat"
+                 placeholder="percorso immagine">
+        </div>
 
       </div>
-    </div>
-  </div>
+      <div class="modal-footer">
+        <div class="alert alert-danger"
+             *ngIf="(!newCategoryForm.get('nomeCat').valid) && newCategoryForm.get('nomeCat').touched">{{ errMsg
+          }}
+        </div>
+        <button type="submit" class="btn btn-success">Aggiungi</button>
+      </div>
+    </form>
+
+  </ng-template>
 </div>
 
 <div class="row">

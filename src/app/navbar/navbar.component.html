@@ -49,7 +49,7 @@
                 *ngIf="!isUserLoggedIn" style="margin-right: 5px;">
           Registrati
         </button>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#accesso"
+        <button type="button" class="btn btn-success" (click)="openLoginModal(loginModalT)"
                 *ngIf="!isUserLoggedIn">
           Accedi
         </button>
@@ -64,38 +64,34 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="accesso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Email"
-                   formControlName="email" required>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password"
-                   formControlName="password" required>
-          </div>
-          <div class="alert alert-success" *ngIf="detectUserLogin === 'true'">Log in avvenuto con successo!</div>
-          <div class="alert alert-danger" *ngIf="(detectUserLogin === 'false') && accediButtonIsClicked">
-            <ul>
-              <li *ngFor="let err of errMsg">{{ err }}</li>
-            </ul>
-          </div>
-          <button type="submit" class="btn btn-success" (click)="accediButtonClicked()">Accedi</button>
-        </form>
-
-      </div>
-    </div>
+<ng-template #loginModalT>
+  <div class="modal-header">
+    <button type="button" class="close" (click)="loginModalRef.hide()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
   </div>
-</div>
+  <div class="modal-body">
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email"
+               formControlName="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password"
+               formControlName="password" required>
+      </div>
+      <div class="alert alert-success" *ngIf="detectUserLogin === 'true'">Log in avvenuto con successo!</div>
+      <div class="alert alert-danger" *ngIf="(detectUserLogin === 'false') && accediButtonIsClicked">
+        <ul>
+          <li *ngFor="let err of errMsg">{{ err }}</li>
+        </ul>
+      </div>
+      <button type="submit" class="btn btn-success" (click)="accediButtonClicked()">Accedi</button>
+    </form>
+
+  </div>
+</ng-template>

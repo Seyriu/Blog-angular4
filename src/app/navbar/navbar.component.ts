@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Utente } from '../models/utente.model';
 import { Categoria } from '../models/categoria.model';
-import * as $ from 'jquery';
 import { CategoriaService } from '../services/categoria.service';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-navbar',
@@ -20,12 +20,14 @@ export class NavbarComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   accediButtonIsClicked = false;
   errMsg: string[] = [];
+  loginModalRef: BsModalRef;
 
   // if user is still logged out, detect when the user will be logged in (asynchronously)
   detectUserLogin: string = '';
 
   constructor(private cSvc: CategoriaService,
               private router: Router,
+              private modalService: BsModalService,
               public login: UtenteAndLoginService) {
   }
 
@@ -83,7 +85,7 @@ export class NavbarComponent implements OnInit {
                   localStorage.setItem('savedUser', JSON.stringify(utente));
                   this.login.utente = this.utente;
                   this.detectUserLogin = 'true';
-                  $('#accessoClose').click();
+                  this.loginModalRef.hide();
                 });
             }
           },
@@ -106,6 +108,10 @@ export class NavbarComponent implements OnInit {
         this.errMsg.push('Password non valida!');
       }
     }
+  }
+
+  openLoginModal(loginModal: TemplateRef<any>) {
+    this.loginModalRef = this.modalService.show(loginModal);
   }
 
   accediButtonClicked() {

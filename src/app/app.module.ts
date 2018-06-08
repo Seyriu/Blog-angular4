@@ -23,6 +23,7 @@ import { UtilitiesService } from './services/utilities.service';
 import { PostService } from './services/post.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UtenteAndLoginService } from './services/utente-and-login.service';
+import { ModalModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { UtenteAndLoginService } from './services/utente-and-login.service';
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule.forRoot()
   ],
   providers: [
     CategoriaService,

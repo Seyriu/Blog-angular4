@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef } from '@angular/core';
 import { Categoria } from '../models/categoria.model';
 import { Tag } from '../models/tag.model';
 import { Commento } from '../models/commento.model';
@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoriaService } from '../services/categoria.service';
 import { TagService } from '../services/tag.service';
 import { CommentoService } from '../services/commento.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-admin-page',
@@ -20,11 +21,14 @@ export class AdminPageComponent implements OnInit {
   commenti: Commento[];
   commento: Commento = null;
   errMsg: string = "";
+  catModalRef: BsModalRef;
+  cmtModalRef: BsModalRef;
 
   constructor(private cSvc: CategoriaService,
               private tSvc: TagService,
               private coSvc: CommentoService,
-              public utilities: UtilitiesService) {
+              public utilities: UtilitiesService,
+              private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -87,8 +91,10 @@ export class AdminPageComponent implements OnInit {
                 (categorie: Categoria[]) => {
                   this.categorie = categorie;
                   this.cSvc.categorie = categorie;
-                  $('#catModalClose').click();
+                  // $('#catModalClose').click();
+                  this.catModalRef.hide();
                 });
+
             }
           },
           err => {
@@ -101,6 +107,14 @@ export class AdminPageComponent implements OnInit {
         this.errMsg = 'Inserire il nome di una categoria!';
       }
     }
+  }
+
+  openCatModal(catModal: TemplateRef<any>) {
+    this.catModalRef = this.modalService.show(catModal);
+  }
+
+  openCmtModal(cmtModal: TemplateRef<any>) {
+    this.cmtModalRef = this.modalService.show(cmtModal);
   }
 
   setCommento(commento: Commento) {

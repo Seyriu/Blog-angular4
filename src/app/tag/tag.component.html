@@ -11,6 +11,7 @@
 
     <div class="row">
       <app-post-tile *ngFor="let postRef of mainTag?.posts" class="dropdown-item" [post]="postRef"></app-post-tile>
+      <div class="alert alert-danger" *ngIf="!mainTag?.posts || mainTag?.posts.length === 0">Non esistono post per il tag {{ mainTag?.nome }}!</div>
     </div>
   </div>
   <!--/.col-xs-12.col-sm-9-->
