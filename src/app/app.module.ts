@@ -10,7 +10,7 @@ import { CategoriaComponent } from './categoria/categoria.component';
 import { TagComponent } from './tag/tag.component';
 import { ArraySortPipe } from './pipes/sort.pipe';
 import { CreatePostComponent } from './create-post/create-post.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowPostComponent } from './show-post/show-post.component';
 import { RegistrazioneComponent } from './registrazione/registrazione.component';
 import { filterVisibilePipe } from './pipes/filterVisibile.pipe';
@@ -23,7 +23,7 @@ import { UtilitiesService } from './services/utilities.service';
 import { PostService } from './services/post.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UtenteAndLoginService } from './services/utente-and-login.service';
-import { ModalModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,10 @@ import { ModalModule } from 'ngx-bootstrap';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ModalModule.forRoot()
+    FormsModule,
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     CategoriaService,

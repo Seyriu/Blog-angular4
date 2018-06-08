@@ -10,8 +10,13 @@
     <hr>
 
     <div class="row">
-      <app-post-tile *ngFor="let postRef of mainTag?.posts" class="dropdown-item" [post]="postRef"></app-post-tile>
-      <div class="alert alert-danger" *ngIf="!mainTag?.posts || mainTag?.posts.length === 0">Non esistono post per il tag {{ mainTag?.nome }}!</div>
+      <app-post-tile *ngFor="let postRef of returnedPostArray" class="dropdown-item" [post]="postRef"></app-post-tile>
+      <div class="alert alert-danger" *ngIf="!returnedPostArray || returnedPostArray.length === 0">Non esistono post per il tag {{ mainTag?.nome }}!</div>
+    </div>
+
+    <div class="col-xs-12 col-sm-9">
+      <pagination *ngIf="visiblePosts?.length > 0" [totalItems]="visiblePosts.length" [itemsPerPage]="6"
+                  (pageChanged)="pageChanged($event)" [maxSize]="5" [(ngModel)]="currentPage"></pagination>
     </div>
   </div>
   <!--/.col-xs-12.col-sm-9-->

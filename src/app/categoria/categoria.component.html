@@ -10,15 +10,24 @@
     <hr>
 
     <div class="row">
-      <app-post-tile *ngFor="let postRef of categoria?.posts; let i=index" class="dropdown-item" [post]="postRef"></app-post-tile>
-      <div class="alert alert-danger" *ngIf="!categoria?.posts || categoria?.posts.length === 0">Non esistono post per la categoria {{ categoria?.nome }}!</div>
+      <app-post-tile *ngFor="let postRef of returnedPostArray; let i=index" class="dropdown-item"
+                     [post]="postRef"></app-post-tile>
+      <div class="alert alert-danger" *ngIf="!returnedPostArray || returnedPostArray.length === 0">Non esistono post per
+        la categoria {{ categoria?.nome }}!
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-9">
+      <pagination *ngIf="visiblePosts?.length > 0" [totalItems]="visiblePosts.length" [itemsPerPage]="6"
+                  (pageChanged)="pageChanged($event)" [maxSize]="5" [(ngModel)]="currentPage"></pagination>
     </div>
   </div>
   <!--/.col-xs-12.col-sm-9-->
 
   <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
     <div class="list-group">
-      <a class="list-group-item" *ngFor="let tag of tags | slice:0:10;" [routerLink]="['/tags', tag.id]" >{{tag?.nome}}</a>
+      <a class="list-group-item" *ngFor="let tag of tags | slice:0:10;"
+         [routerLink]="['/tags', tag.id]">{{tag?.nome}}</a>
     </div>
   </div>
   <!--/.sidebar-offcanvas-->
