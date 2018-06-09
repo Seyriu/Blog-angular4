@@ -24,17 +24,33 @@ export class RegistrazioneComponent implements OnInit {
   ngOnInit() {
     this.regForm = new FormGroup({
       'emailSU': new FormControl(null, [Validators.required, Validators.email]),
-      'passwordSU': new FormControl(null,
-        [
-          Validators.required,
-          Validators.minLength(4)
-          // this.passwordsNotMatching.bind(this)
-        ]),
-      'passwordRe': new FormControl(null, [
-        Validators.required
-        // this.passwordReNotMatching.bind(this)
-      ])
+      'passwordGroup': new FormGroup({
+        'passwordSU': new FormControl(null,
+          [
+            Validators.required,
+            Validators.minLength(4)
+          ]),
+        'passwordRe': new FormControl(null, [
+          Validators.required
+        ])
+      }, [this.matchValidator.bind(this)])
     });
+  }
+
+  private matchValidator(group: FormGroup): { [s: string]: boolean } {
+    var valid = false;
+
+    if (group.get('passwordSU') && group.get('passwordRe')) {
+      group.get('passwordSU').value === group.get('passwordRe').value ? valid = true : "";
+    }
+
+    if (valid) {
+      return null;
+    }
+
+    return {
+      'mismatch': true
+    };
   }
 
   onSubmitNewUser() {
@@ -86,24 +102,6 @@ export class RegistrazioneComponent implements OnInit {
           this.login.setLoggedInAndUser(false, null);
         }
       );
-  }
-
-  passwordsNotMatching(control?: FormControl): { [s: string]: boolean } {
-    if (this.regForm &&
-      (control.value !== this.regForm.get('passwordRe').value)
-    ) {
-      return {'passwordDiverse': true};
-    }
-    // return null;
-  }
-
-  passwordReNotMatching(control?: FormControl): { [s: string]: boolean } {
-    if (this.regForm &&
-      (control.value !== this.regForm.get('passwordSU').value)
-    ) {
-      return {'passwordDiverse': true};
-    }
-    // return null;
   }
 
 }

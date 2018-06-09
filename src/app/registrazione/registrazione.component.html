@@ -6,26 +6,31 @@
         <div class="form-group">
           <label for="emailSU" class="col-sm-3 control-label">Email</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="emailSU" formControlName="emailSU" placeholder="Email" required>
+            <input type="email" class="form-control" id="emailSU" formControlName="emailSU" placeholder="Email"
+                   required>
           </div>
         </div>
-        <div class="form-group">
-          <label for="passwordSU" class="col-sm-3 control-label">Password</label>
-          <div class="col-sm-9">
-            <input type="password" class="form-control" id="passwordSU" formControlName="passwordSU" placeholder="Password" required>
+        <div formGroupName="passwordGroup">
+          <div class="form-group">
+            <label for="passwordSU" class="col-sm-3 control-label">Password</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control" id="passwordSU" formControlName="passwordSU"
+                     placeholder="Password" required>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="passwordRe" class="col-sm-3 control-label">Ripeti Password</label>
-          <div class="col-sm-9">
-            <input type="password" class="form-control" id="passwordRe" formControlName="passwordRe" placeholder="Ripeti Password" required>
+          <div class="form-group">
+            <label for="passwordRe" class="col-sm-3 control-label">Ripeti Password</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control" id="passwordRe" formControlName="passwordRe"
+                     placeholder="Ripeti Password" required>
+            </div>
           </div>
         </div>
         <span
-          *ngIf="!(regForm.get('passwordSU').value === regForm.get('passwordRe').value)"
+          *ngIf="!passwordGroup?.valid && passwordGroup?.touched"
           class="help-block">
-              <!--<span *ngIf="regForm.get('passwordSU')-->
-              <!--.errors['passwordDiverse'] && !regForm.get('passwordRe').untouched">Le password sono Diverse!</span>-->
+              <span
+                *ngIf="passwordGroup.errors['mismatch'] && !passwordGroup.untouched">Le password sono Diverse!</span>
 
             </span>
         <div class="form-group">
