@@ -83,10 +83,10 @@
 
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="deleteCommento(commento.id)">
+            <button type="submit" class="btn btn-danger" (click)="deleteCommento(commento.id); catModalRef.hide();">
               Elimina Commento
             </button>
-            <button type="submit" class="btn btn-success" data-dismiss="modal" (click)="updateVisibility(commento)">
+            <button type="submit" class="btn btn-success" (click)="updateVisibility(commento); catModalRef.hide();">
               Pubblica Commento
             </button>
           </div>

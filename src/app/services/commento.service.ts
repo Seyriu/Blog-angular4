@@ -46,7 +46,7 @@ export class CommentoService {
   }
 
   updateVisibility(visibility: string, id: number): Observable<boolean> {
-    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/' + id,
+    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/visibility/' + id,
       visibility,
       {
         headers: {

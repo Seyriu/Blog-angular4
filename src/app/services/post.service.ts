@@ -46,6 +46,17 @@ export class PostService {
     )
   }
 
+  increaseViewCount(id: number): Observable<boolean> {
+    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/posts/view-count/' + id,
+      "",
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this._login.jwt as string
+        }
+      });
+  }
+
   insertPost(post: Post): Observable<boolean> {
 
     const req = this._httpClient.post<boolean>('http://localhost:8080/blog/rest/posts',

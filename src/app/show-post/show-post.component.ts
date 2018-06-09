@@ -37,7 +37,9 @@ export class ShowPostComponent implements OnInit {
       this.pSvc.loadPost(this.id).subscribe(
         (post: Post) => {
           this.post = post;
+          this.post.visite += 1;
         });
+      this.pSvc.increaseViewCount(this.id).subscribe();
     });
 
     this.utente = this.login.utente;
@@ -82,6 +84,21 @@ export class ShowPostComponent implements OnInit {
       );
       this.commentForm.reset();
     }
+  }
+
+  deleteCommento(id: number) {
+    this.coSvc.deleteCommento(id).subscribe(
+      (callResult: boolean) => {
+        console.log(callResult);
+        if (callResult) {
+          this.pSvc.loadPost(this.id).subscribe(
+            (post: Post) => {
+              this.post = post;
+            }
+          );
+        }
+      }
+    )
   }
 
 }
