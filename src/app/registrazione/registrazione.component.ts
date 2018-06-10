@@ -38,19 +38,14 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   private matchValidator(group: FormGroup): { [s: string]: boolean } {
-    var valid = false;
-
-    if (group.get('passwordSU') && group.get('passwordRe')) {
-      group.get('passwordSU').value === group.get('passwordRe').value ? valid = true : "";
+    if (group.get('passwordSU').value && group.get('passwordRe').value) {
+      if(group.get('passwordSU').value !== group.get('passwordRe').value) {
+        return {
+          'mismatch': true
+        };
+      }
     }
-
-    if (valid) {
-      return null;
-    }
-
-    return {
-      'mismatch': true
-    };
+    return null;
   }
 
   onSubmitNewUser() {

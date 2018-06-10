@@ -26,15 +26,14 @@
             </div>
           </div>
         </div>
-        <span
-          *ngIf="!passwordGroup?.valid && passwordGroup?.touched"
-          class="help-block">
-              <span
-                *ngIf="passwordGroup.errors['mismatch'] && !passwordGroup.untouched">Le password sono Diverse!</span>
-
-            </span>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9">
+            <span class="help-block" *ngIf="regForm.get('emailSU')?.errors?.email">Formato email non corretto!</span>
+
+            <span class="help-block"
+                  *ngIf="!regForm.get('passwordGroup')?.valid && regForm.get('passwordGroup')?.touched && regForm.get('passwordGroup')?.errors !== null">
+              <span *ngIf="regForm.get('passwordGroup')?.errors['mismatch']">Le password devono essere uguali e piu' lunghe di 3 caratteri!</span>
+            </span>
             <span class="help-block" *ngIf="!regForm.valid && regForm.touched">Inserisci dati validi!</span>
             <div class="alert alert-danger" *ngIf="utenteInserito === 'error'">Errore durante l'inserimento</div>
             <div class="alert alert-success" *ngIf="utenteInserito === 'success'">Utente inserito con successo!</div>
