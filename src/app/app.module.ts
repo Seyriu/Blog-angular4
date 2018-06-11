@@ -24,6 +24,9 @@ import { PostService } from './services/post.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UtenteAndLoginService } from './services/utente-and-login.service';
 import { BsDropdownModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { BsDropdownModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
     CreatePostComponent,
     ShowPostComponent,
     RegistrazioneComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,9 @@ import { BsDropdownModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
     UtenteAndLoginService,
     PostService,
     TagService,
-    UtilitiesService
+    UtilitiesService,
+    AuthGuard,
+    AuthGuardAdmin
     ],
   bootstrap: [AppComponent]
 })
