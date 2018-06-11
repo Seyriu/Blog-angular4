@@ -8,6 +8,8 @@ import { CategoriaService } from '../services/categoria.service';
 import { TagService } from '../services/tag.service';
 import { CommentoService } from '../services/commento.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Utente } from '../models/utente.model';
+import { UtenteAndLoginService } from '../services/utente-and-login.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -16,6 +18,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 })
 export class AdminPageComponent implements OnInit {
   categorie: Categoria[];
+  utenti: Utente[];
+  inactiveUsers: Utente[] = [];
   newCategoryForm: FormGroup;
   tags: Tag[];
   commenti: Commento[];
@@ -27,6 +31,7 @@ export class AdminPageComponent implements OnInit {
   constructor(private cSvc: CategoriaService,
               private tSvc: TagService,
               private coSvc: CommentoService,
+              private login: UtenteAndLoginService,
               public utilities: UtilitiesService,
               private modalService: BsModalService) {
   }
@@ -62,6 +67,17 @@ export class AdminPageComponent implements OnInit {
 
     this.coSvc.commentiUpdated.subscribe((commenti: Commento[]) => {
       this.commenti = commenti;
+    });
+
+    this.login.loadUsers().subscribe(
+      (utenti: Utente[]) => {
+        this.utenti = utenti;
+        this.login.utenti = utenti;
+      });
+
+    this.login.utentiUpdated.subscribe((utenti: Utente[]) => {
+      this.utenti = utenti;
+      this.loadInactiveUsers();
     });
 
     this.newCategoryForm = new FormGroup({
@@ -107,6 +123,30 @@ export class AdminPageComponent implements OnInit {
         this.errMsg = 'Inserire il nome di una categoria!';
       }
     }
+  }
+
+  loadInactiveUsers() {
+    this.inactiveUsers = [];
+    this.utenti.forEach(
+      (utente) => {
+        if (utente.isActive === false) {
+          this.inactiveUsers.push(utente);
+        }
+      })
+  }
+
+  activateUser(id: number) {
+    this.login.activateUser(id).subscribe(
+      (result: boolean) => {
+        if (result) {
+          this.login.loadUsers().subscribe(
+            (utenti: Utente[]) => {
+              this.utenti = utenti;
+              this.login.utenti = utenti;
+              this.loadInactiveUsers();
+            })
+        }
+      });
   }
 
   openCatModal(catModal: TemplateRef<any>) {

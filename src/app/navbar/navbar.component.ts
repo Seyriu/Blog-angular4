@@ -72,6 +72,8 @@ export class NavbarComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      const email = this.loginForm.get('email').value;
+
       this.login.login(
         this.loginForm.get('email').value,
         this.loginForm.get('password').value
@@ -94,6 +96,7 @@ export class NavbarComponent implements OnInit {
             this.detectUserLogin = 'false';
             this.errMsg.push('Nome  utente / password incorretti');
             this.login.setLoggedInAndUser(false, null);
+            this.login.increaseFailedAccessAttempts(email).subscribe();
           }
         );
       this.loginForm.reset();

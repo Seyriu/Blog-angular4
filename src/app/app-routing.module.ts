@@ -21,7 +21,7 @@ const appRoutes: Routes = [
   {path: 'registrazione', component: RegistrazioneComponent},
   {path: 'admin', canActivate: [AuthGuardAdmin], component: AdminPageComponent},
   { path: 'not-found', component: ErrorPageComponent, data: {message: '404 Page not found!'} },
-  { path: 'forbidden', component: ErrorPageComponent, data: {message: 'Forbidden access, please log in!'} },
+  { path: 'forbidden', component: ErrorPageComponent, data: {message: 'Access forbidden. Please log in!'} },
   { path: 'forbidden-admin', component: ErrorPageComponent, data: {message: 'Only administrators can access this page!'} },
   { path: '**', redirectTo: '/not-found' }
 ];

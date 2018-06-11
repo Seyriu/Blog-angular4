@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs/index';
 import { Utente } from '../models/utente.model';
 import { map } from 'rxjs/internal/operators';
+import { UtilitiesService } from './utilities.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtenteAndLoginService {
+  private _utenti: Utente[];
+  public utentiUpdated = new Subject<Utente[]>();
   private _loggedIn: boolean = false;
   public loginUpdated = new Subject<boolean>();
   private _utente: Utente = null;
@@ -16,7 +19,7 @@ export class UtenteAndLoginService {
   public jwtUpdated = new Subject<string>();
   private _id: string;
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _utilities: UtilitiesService) {
     if (localStorage.getItem('blogJwt')) {
       this._jwt = localStorage.getItem('blogJwt');
       this._utente = JSON.parse(localStorage.getItem('savedUser'));
@@ -53,12 +56,53 @@ export class UtenteAndLoginService {
     );
   }
 
+  public loadUsers(): Observable<Utente[]> {
+    return this._http.get<any[]>(
+      'http://localhost:8080/blog/rest/utenti',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this.jwt,
+        }
+      }).pipe(
+      map(utentiDTO => {
+        let utenti: Utente[] = [];
+        utentiDTO.forEach((uDTO: any) => {
+          utenti.push(this._utilities.utenteDTOToUtente(uDTO));
+        });
+        return utenti;
+      })
+    )
+  }
+
   loadUser(id: number, jwt: string): Observable<Utente> {
     return this._http.get<Utente>('http://localhost:8080/blog/rest/utenti/' + id,
       {
         headers: {
           'Content-Type': 'application/json',
           'jwt': jwt,
+        }
+      })
+  }
+
+  activateUser(id: number): Observable<boolean> {
+    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/activated/' + id,
+      true,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this.jwt,
+        }
+      })
+  }
+
+  increaseFailedAccessAttempts(email: string): Observable<boolean> {
+    console.log(email);
+    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/failed-accesses',
+      email,
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
       })
   }
@@ -88,6 +132,14 @@ export class UtenteAndLoginService {
     this.loginUpdated.next(this._loggedIn);
   }
 
+  get utenti(): Utente[] {
+    return this._utenti;
+  }
+
+  set utenti(value: Utente[]) {
+    this._utenti = value;
+    this.utentiUpdated.next(this._utenti);
+  }
 
   get utente(): Utente {
     if (localStorage.getItem('blogJwt')) {
