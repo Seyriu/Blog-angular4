@@ -96,6 +96,17 @@ export class UtenteAndLoginService {
       })
   }
 
+  banUser(ban: boolean, id: number): Observable<boolean> {
+    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/banned/' + id,
+      ban,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'jwt': this.jwt,
+        }
+      })
+  }
+
   increaseFailedAccessAttempts(email: string): Observable<boolean> {
     console.log(email);
     return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/failed-accesses',

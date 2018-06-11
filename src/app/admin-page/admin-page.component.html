@@ -123,6 +123,35 @@
 </div>
 
 <div class="row">
+
+<div class=" col-md-offset-3 col-md-6">
+
+  <div class="panel panel-default" style="margin-top: 10px;">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Utenti Bannati</div>
+
+    <!-- Table -->
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Utenti</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let utente of bannedUsers">
+        <td>{{ utente.email }} {{ utente.nome }} {{ utente.cognome }}</td>
+        <td>
+          <button type="button" class="btn btn-success pull-right" (click)="unbanUser(utente.id)">Annulla Ban</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="row">
   <div class=" col-md-offset-3 col-md-6">
 
     <div class="panel panel-default" style="margin-top: 10px;">

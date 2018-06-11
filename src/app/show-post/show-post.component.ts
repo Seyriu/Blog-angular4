@@ -86,6 +86,10 @@ export class ShowPostComponent implements OnInit {
     }
   }
 
+  banUser(id: number) {
+    this.login.banUser(true, id).subscribe();
+  }
+
   deleteCommento(id: number) {
     this.coSvc.deleteCommento(id).subscribe(
       (callResult: boolean) => {

@@ -37,7 +37,11 @@
                   utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}
                   <button *ngIf="utente.ruolo.nome === 'administrator'" type="submit" class="btn btn-danger pull-right"
                          style="margin-right: 5px;" (click)="deleteCommento(commento.id)">
-                    Elimina
+                    &times;
+                  </button>
+                  <button *ngIf="utente.ruolo.nome === 'administrator'" type="submit" class="btn btn-danger pull-right"
+                          style="margin-right: 5px;" (click)="banUser(commento?.utente.id)">
+                    Ban
                   </button>
                 </h4>
                 <p>{{ commento?.testo }}</p>

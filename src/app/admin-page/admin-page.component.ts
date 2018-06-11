@@ -20,6 +20,7 @@ export class AdminPageComponent implements OnInit {
   categorie: Categoria[];
   utenti: Utente[];
   inactiveUsers: Utente[] = [];
+  bannedUsers: Utente[] = [];
   newCategoryForm: FormGroup;
   tags: Tag[];
   commenti: Commento[];
@@ -77,7 +78,8 @@ export class AdminPageComponent implements OnInit {
 
     this.login.utentiUpdated.subscribe((utenti: Utente[]) => {
       this.utenti = utenti;
-      this.loadInactiveUsers();
+      this.loadInactiveUsersArray();
+      this.loadBannedUsersArray();
     });
 
     this.newCategoryForm = new FormGroup({
@@ -125,12 +127,22 @@ export class AdminPageComponent implements OnInit {
     }
   }
 
-  loadInactiveUsers() {
+  loadInactiveUsersArray() {
     this.inactiveUsers = [];
     this.utenti.forEach(
       (utente) => {
         if (utente.isActive === false) {
           this.inactiveUsers.push(utente);
+        }
+      })
+  }
+
+  loadBannedUsersArray() {
+    this.bannedUsers = [];
+    this.utenti.forEach(
+      (utente) => {
+        if (utente.isBanned === true) {
+          this.bannedUsers.push(utente);
         }
       })
   }
@@ -143,7 +155,21 @@ export class AdminPageComponent implements OnInit {
             (utenti: Utente[]) => {
               this.utenti = utenti;
               this.login.utenti = utenti;
-              this.loadInactiveUsers();
+              this.loadInactiveUsersArray();
+            })
+        }
+      });
+  }
+
+  unbanUser(id: number) {
+    this.login.banUser(false, id).subscribe(
+      (result: boolean) => {
+        if (result) {
+          this.login.loadUsers().subscribe(
+            (utenti: Utente[]) => {
+              this.utenti = utenti;
+              this.login.utenti = utenti;
+              this.loadBannedUsersArray();
             })
         }
       });
