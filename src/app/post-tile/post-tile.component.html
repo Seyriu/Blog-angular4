@@ -4,7 +4,7 @@
     <div class="caption">
       <hr>
       <h3>{{post.titolo | slice:0:20}}</h3>
-      <label>Pubblicato il {{ utilities.stringToDate(post.dataPostAsString)| date: 'MM/dd/yyyy' }}</label>
+      <label>Pubblicato il {{ utilities.stringToDateTime(post.dataPostAsString)| date: 'MM/dd/yyyy HH:mm' }}</label>
       <hr>
       <p>
         <button [routerLink]="['/posts', post.id]" class="btn btn-default" role="button" [disabled]="utente === null">Leggi il post</button>

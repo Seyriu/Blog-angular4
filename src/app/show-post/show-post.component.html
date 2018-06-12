@@ -12,8 +12,8 @@
     <div class="row">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">{{ post?.titolo }} - {{ utilities.stringToDate(post?.dataPostAsString)| date:
-            'MM/dd/yyyy'
+          <h3 class="panel-title">{{ post?.titolo }} - {{ utilities.stringToDateTime(post?.dataPostAsString)| date:
+            'MM/dd/yyyy HH:mm'
             }} - Visite post: {{ post?.visite }}</h3>
         </div>
         <div class="panel-body">
@@ -34,7 +34,7 @@
               </div>
               <div class="media-body">
                 <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                  utilities.stringToDate(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}
+                  utilities.stringToDateTime(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy HH:mm' }}
                   <button *ngIf="utente.ruolo.nome === 'administrator'" type="submit" class="btn btn-danger pull-right"
                          style="margin-right: 5px;" (click)="deleteCommento(commento.id)">
                     &times;
@@ -55,9 +55,10 @@
                   </a>
                 </div>
                 <div class="media-body">
-                  <h4 class="media-heading">admin@admin.com - {{ utilities.stringToDate(commento?.dataRispostaAsString
+                  <h4 class="media-heading">admin@admin.com - {{
+                    utilities.stringToDateTime(commento?.dataRispostaAsString
                     )| date:
-                    'MM/dd/yyyy' }}</h4>
+                    'MM/dd/yyyy HH:mm' }}</h4>
                   <p>{{ commento?.risposta }}</p>
                 </div>
               </div>

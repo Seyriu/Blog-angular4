@@ -91,7 +91,7 @@ export class CreatePostComponent implements OnInit {
         null,
         this.postForm.get("titoloPost").value,
         this.postForm.get("testoPost").value,
-        this.utilities.dateToString(new Date()),
+        this.utilities.dateTimeToString(new Date()),
         true,
         0,
         this._categoria,

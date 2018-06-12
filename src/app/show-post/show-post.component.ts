@@ -69,7 +69,7 @@ export class ShowPostComponent implements OnInit {
       const commento: Commento = new Commento(
         -1,
         this.commentForm.get("commentoPost").value,
-        this.utilities.dateToString(new Date()),
+        this.utilities.dateTimeToString(new Date()),
         null,
         null,
         'unchecked',

@@ -59,8 +59,8 @@ export class RegistrazioneComponent implements OnInit {
       false,
       false,
       0,
-      this.utilities.dateToString(new Date()),
-      this.utilities.dateToString(new Date()),
+      this.utilities.dateTimeToString(new Date()),
+      this.utilities.dateTimeToString(new Date()),
       new Ruolo(3, "utente"),
     );
     if (this.regForm.valid) {

@@ -32,22 +32,31 @@ export class UtilitiesService {
     return null;
   }
 
-  public dateToString(date?: Date): string {
+  public dateTimeToString(date?: Date): string {
     if (date !== null) {
-      const day: string = String((date.getDate() < 10) ? "0" + date.getDate() : date.getDate());
-      const month: string = String(((date.getMonth() + 1) < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
+      const day: string = String(this.addAZero(date.getDate()));
+      const month: string = String(this.addAZero(date.getMonth() + 1));
       const year: string = String(date.getFullYear());
-      return year + "-" + month + "-" + day;
+      const hours: string = String(this.addAZero(date.getHours()));
+      const minutes: string = String(this.addAZero(date.getMinutes()));
+      const seconds: string = String(this.addAZero(date.getSeconds()));
+      return year + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":00";
     }
     return null;
   }
 
-  public stringToDate(stringDate?: string): Date {
+  public stringToDateTime(stringDate?: string): Date {
     if (stringDate) {
-      const splitStringArray = stringDate.split('-');
-      return new Date(+splitStringArray[0], +splitStringArray[1] - 1, +splitStringArray[2] + 1);
+      const splitStringArray = stringDate.split('T');
+      const dateSplitArray = splitStringArray[0].split('-');
+      const timeSplitArray = splitStringArray[1].split(':');
+      return new Date(+dateSplitArray[0], +dateSplitArray[1] - 1, +dateSplitArray[2] + 1, +timeSplitArray[0], +timeSplitArray[1], 0, 0);
     }
     return null;
+  }
+
+  private addAZero(stringNumber: number) {
+    return (stringNumber < 10) ? "0" + stringNumber : stringNumber;
   }
 
   public postDTOToPost(pDTO: any): Post {
