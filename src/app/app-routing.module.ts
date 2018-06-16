@@ -10,6 +10,7 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
+import { UserPageComponent } from './user-page/user-page.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   {path: 'tags/:id', component: TagComponent},
   {path: 'registrazione', component: RegistrazioneComponent},
   {path: 'admin', canActivate: [AuthGuardAdmin], component: AdminPageComponent},
+  {path: 'user', canActivate: [AuthGuard], component: UserPageComponent},
   { path: 'not-found', component: ErrorPageComponent, data: {message: '404 Page not found!'} },
   { path: 'forbidden', component: ErrorPageComponent, data: {message: 'Access forbidden. Please log in!'} },
   { path: 'forbidden-admin', component: ErrorPageComponent, data: {message: 'Only administrators can access this page!'} },

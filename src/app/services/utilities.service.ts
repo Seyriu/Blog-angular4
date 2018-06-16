@@ -97,6 +97,7 @@ export class UtilitiesService {
       uDTO.password,
       uDTO.isActive,
       uDTO.isBanned,
+      uDTO.image,
       uDTO.failedAccessAttempts,
       uDTO.dateCreationAsString,
       uDTO.dateLastAccessAsString,

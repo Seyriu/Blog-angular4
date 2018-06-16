@@ -5,11 +5,13 @@ import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
 import { UtenteAndLoginService } from './utente-and-login.service';
 import { Categoria } from '../models/categoria.model';
+import { ConstantsService } from './constants.service';
 
 @Injectable()
 export class CategoriaService {
   private _categorie: Categoria[] = [];
   public categorieUpdated = new Subject<Categoria[]>();
+  private readonly _SERVER_PATH = ConstantsService.SERVER_REST_PATH + 'categorie/';
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
@@ -17,9 +19,7 @@ export class CategoriaService {
   }
 
   public loadCategorie(): Observable<Categoria[]> {
-    return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/categorie'
-    ).pipe(
+    return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
       map(categorieDTO => {
         var categorie: Categoria[] = [];
         categorieDTO.forEach((cDTO: any) => {
@@ -32,7 +32,7 @@ export class CategoriaService {
 
   public loadCategoria(id: number): Observable<Categoria> {
     return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/categorie/' + id
+      this._SERVER_PATH + id
     ).pipe(
       map(cDTO => {
         return this._utilities.categoriaDTOToCategoria(cDTO);
@@ -42,7 +42,7 @@ export class CategoriaService {
 
   insertCategoria(categoria: Categoria): Observable<boolean> {
 
-    const req = this._httpClient.post<boolean>('http://localhost:8080/blog/rest/categorie',
+    const req = this._httpClient.post<boolean>(this._SERVER_PATH,
       JSON.stringify(categoria),
       {
         headers: {
@@ -54,7 +54,7 @@ export class CategoriaService {
   }
 
   deleteCategoria(id: number): Observable<boolean> {
-    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/categorie/' + id,
+    return this._httpClient.delete<boolean>(this._SERVER_PATH + id,
       {
         headers: {
           'Content-Type': 'application/json',

@@ -7,6 +7,7 @@ export class Utente {
     public password: string,
     public isActive: boolean,
     public isBanned: boolean,
+    public image: string,
     public failedAccessAttempts: number,
     public dateCreationAsString: string,
     public dateLastAccessAsString: string,

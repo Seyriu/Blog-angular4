@@ -9,11 +9,13 @@ import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
 import { Categoria } from '../models/categoria.model';
 import { UtenteAndLoginService } from './utente-and-login.service';
+import { ConstantsService } from './constants.service';
 
 @Injectable()
 export class CommentoService {
   private _commenti: Commento[] = [];
   public commentiUpdated = new Subject<Commento[]>();
+  private readonly _SERVER_PATH = ConstantsService.SERVER_REST_PATH + 'commenti/';
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
@@ -21,9 +23,7 @@ export class CommentoService {
   }
 
   public loadCommenti(): Observable<Commento[]> {
-    return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/commenti'
-    ).pipe(
+    return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
       map(commentiDTO => {
         var commenti: Commento[] = [];
         commentiDTO.forEach((cDTO: any) => {
@@ -35,7 +35,7 @@ export class CommentoService {
   }
 
   insertComment(commento: Commento): Observable<boolean> {
-    return this._httpClient.post<boolean>('http://localhost:8080/blog/rest/commenti',
+    return this._httpClient.post<boolean>(this._SERVER_PATH,
       JSON.stringify(commento),
       {
         headers: {
@@ -46,7 +46,7 @@ export class CommentoService {
   }
 
   updateVisibility(visibility: string, id: number): Observable<boolean> {
-    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/commenti/visibility/' + id,
+    return this._httpClient.put<boolean>(this._SERVER_PATH + id,
       visibility,
       {
         headers: {
@@ -57,7 +57,7 @@ export class CommentoService {
   }
 
   deleteCommento(id: number): Observable<boolean> {
-    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/commenti/' + id,
+    return this._httpClient.delete<boolean>(this._SERVER_PATH + id,
       {
         headers: {
           'Content-Type': 'application/json',

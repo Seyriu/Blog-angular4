@@ -27,6 +27,7 @@ import { BsDropdownModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
+import { UserPageComponent } from './user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
     ShowPostComponent,
     RegistrazioneComponent,
     AdminPageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,

@@ -9,11 +9,13 @@ import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
 import { Categoria } from '../models/categoria.model';
 import { UtenteAndLoginService } from './utente-and-login.service';
+import { ConstantsService } from './constants.service';
 
 @Injectable()
 export class PostService {
   private _posts: Post[] = [];
   public postsUpdated = new Subject<Post[]>();
+  private readonly _SERVER_PATH = ConstantsService.SERVER_REST_PATH + 'posts/';
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
@@ -23,9 +25,7 @@ export class PostService {
 
   // import cv data from the server
   public loadPosts(): Observable<Post[]> {
-    return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/posts'
-    ).pipe(
+    return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
         map(postsDTO => {
           var posts: Post[] = [];
           postsDTO.forEach((pDTO: any) => {
@@ -38,7 +38,7 @@ export class PostService {
 
   public loadPost(id: number): Observable<Post> {
     return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/posts/' + id
+      this._SERVER_PATH + id
     ).pipe(
       map(pDTO => {
         return this._utilities.postDTOToPost(pDTO);
@@ -47,7 +47,7 @@ export class PostService {
   }
 
   increaseViewCount(id: number): Observable<boolean> {
-    return this._httpClient.put<boolean>('http://localhost:8080/blog/rest/posts/view-count/' + id,
+    return this._httpClient.put<boolean>(this._SERVER_PATH + id,
       "",
       {
         headers: {
@@ -59,7 +59,7 @@ export class PostService {
 
   insertPost(post: Post): Observable<boolean> {
 
-    const req = this._httpClient.post<boolean>('http://localhost:8080/blog/rest/posts',
+    const req = this._httpClient.post<boolean>(this._SERVER_PATH,
       JSON.stringify(post),
       {
         headers: {

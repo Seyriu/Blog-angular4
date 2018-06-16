@@ -5,11 +5,13 @@ import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
 import { Tag } from '../models/tag.model';
 import { UtenteAndLoginService } from './utente-and-login.service';
+import { ConstantsService } from './constants.service';
 
 @Injectable()
 export class TagService {
   private _tags: Tag[] = [];
   public tagsUpdated = new Subject<Tag[]>();
+  private readonly _SERVER_PATH = ConstantsService.SERVER_REST_PATH + 'tags/';
 
   constructor(private _httpClient: HttpClient,
               private _utilities: UtilitiesService,
@@ -17,9 +19,7 @@ export class TagService {
   }
 
   public loadTags(): Observable<Tag[]> {
-    return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/tags'
-    ).pipe(
+    return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
       map(tagsDTO => {
         var tags: Tag[] = [];
         tagsDTO.forEach((tDTO: any) => {
@@ -32,7 +32,7 @@ export class TagService {
 
   public loadTag(id: number): Observable<Tag> {
     return this._httpClient.get<any[]>(
-      'http://localhost:8080/blog/rest/tags/' + id
+      this._SERVER_PATH + id
     ).pipe(
       map(tDTO => {
         return this._utilities.tagDTOToTag(tDTO);
@@ -41,7 +41,7 @@ export class TagService {
   }
 
   deleteTag(id: number): Observable<boolean> {
-    return this._httpClient.delete<boolean>('http://localhost:8080/blog/rest/tags/' + id,
+    return this._httpClient.delete<boolean>(this._SERVER_PATH + id,
       {
         headers: {
           'Content-Type': 'application/json',

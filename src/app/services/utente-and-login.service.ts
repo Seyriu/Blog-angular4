@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs/index';
 import { Utente } from '../models/utente.model';
 import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
+import { ConstantsService } from './constants.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class UtenteAndLoginService {
   private _jwt: string;
   public jwtUpdated = new Subject<string>();
   private _id: string;
+  private readonly _SERVER_PATH_LOGIN = ConstantsService.SERVER_REST_PATH + 'login/';
+  private readonly _SERVER_PATH_UTENTI = ConstantsService.SERVER_REST_PATH + 'utenti/';
 
   constructor(private _http: HttpClient, private _utilities: UtilitiesService) {
     if (localStorage.getItem('blogJwt')) {
@@ -31,7 +34,7 @@ export class UtenteAndLoginService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this._http.get<String>('http://localhost:8080/blog/rest/login',
+    return this._http.get<String>(this._SERVER_PATH_LOGIN,
       {
         headers: {
           'Content-Type': 'application/json' as string,
@@ -58,7 +61,7 @@ export class UtenteAndLoginService {
 
   public loadUsers(): Observable<Utente[]> {
     return this._http.get<any[]>(
-      'http://localhost:8080/blog/rest/utenti',
+      this._SERVER_PATH_UTENTI,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -76,17 +79,21 @@ export class UtenteAndLoginService {
   }
 
   loadUser(id: number, jwt: string): Observable<Utente> {
-    return this._http.get<Utente>('http://localhost:8080/blog/rest/utenti/' + id,
+    return this._http.get<any>(this._SERVER_PATH_UTENTI + id,
       {
         headers: {
           'Content-Type': 'application/json',
           'jwt': jwt,
         }
+      }).pipe(
+      map(uDTO => {
+        return this._utilities.utenteDTOToUtente(uDTO);
       })
+    )
   }
 
   activateUser(id: number): Observable<boolean> {
-    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/activated/' + id,
+    return this._http.put<boolean>(this._SERVER_PATH_UTENTI + 'activated/' + id,
       true,
       {
         headers: {
@@ -97,7 +104,7 @@ export class UtenteAndLoginService {
   }
 
   banUser(ban: boolean, id: number): Observable<boolean> {
-    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/banned/' + id,
+    return this._http.put<boolean>(this._SERVER_PATH_UTENTI + 'banned/' + id,
       ban,
       {
         headers: {
@@ -109,7 +116,7 @@ export class UtenteAndLoginService {
 
   increaseFailedAccessAttempts(email: string): Observable<boolean> {
     console.log(email);
-    return this._http.put<boolean>('http://localhost:8080/blog/rest/utenti/failed-accesses',
+    return this._http.put<boolean>(this._SERVER_PATH_UTENTI + 'failed-accesses',
       email,
       {
         headers: {
@@ -120,7 +127,7 @@ export class UtenteAndLoginService {
 
   newUser(utente: Utente): Observable<boolean> {
     var jsonUtente = JSON.stringify(utente);
-    return this._http.post<boolean>('http://localhost:8080/blog/rest/utenti',
+    return this._http.post<boolean>(this._SERVER_PATH_UTENTI,
       jsonUtente,
       {
         headers: {'Content-Type': 'application/json'}

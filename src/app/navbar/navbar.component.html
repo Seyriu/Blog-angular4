@@ -43,7 +43,7 @@
         </li>
 
       </ul>
-      <p class="navbar-text navbar-right" *ngIf="isUserLoggedIn">Bentornato, {{ utente?.email }}!</p>
+      <p class="navbar-text navbar-right" *ngIf="isUserLoggedIn">Bentornato, <a [routerLink]="['/user']">{{ utente?.email }}!</a></p>
       <div class="navbar-right navbar-form">
         <button type="button" class="btn btn-warning" [routerLink]="['/registrazione']"
                 *ngIf="!isUserLoggedIn" style="margin-right: 5px;">
