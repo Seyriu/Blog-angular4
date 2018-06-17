@@ -30,6 +30,7 @@ export class UtenteAndLoginService {
       this.utenteUpdated.next(this._utente);
       this.loginUpdated.next(this._loggedIn);
       this.jwtUpdated.next(this._jwt);
+      console.log('userServiceStart: ' + this._utente, localStorage.getItem('savedUser'));
     }
   }
 
@@ -172,6 +173,7 @@ export class UtenteAndLoginService {
     this._utente = value;
     this.utenteUpdated.next(this._utente);
     localStorage.setItem('savedUser', JSON.stringify(value));
+    console.log('setUtente: ' + this._utente);
   }
 
   get jwt(): string {

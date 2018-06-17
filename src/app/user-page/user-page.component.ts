@@ -45,7 +45,7 @@ export class UserPageComponent implements OnInit {
 
     this.fileService.uploadProfilePic(formData).subscribe(
       (response: Response) => {
-        this.login.utenteUpdated.subscribe((utente: Utente) => {
+        this.login.loadUser(this.utente.id, this.login.jwt).subscribe((utente: Utente) => {
           this.utente = utente;
           this.login.utente = utente;
         });
