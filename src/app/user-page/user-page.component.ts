@@ -23,11 +23,9 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit() {
     this.utente = this.login.utente;
-    console.log(this.utente);
 
     this.login.utenteUpdated.subscribe((utente: Utente) => {
       this.utente = utente;
-      console.log(utente);
     });
   }
 

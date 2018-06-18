@@ -15,22 +15,6 @@ export class UtilitiesService {
   }
 
   // transforms a given string date into Date type (year-month-day format)
-  public localDateToDate(localDate?: any): Date {
-    if (localDate !== null) {
-      return new Date(+localDate.year, +localDate.monthValue - 1, +localDate.dayOfMonth + 1);
-    }
-    return null;
-  }
-
-  public localDateToString(localDate?: any): string {
-    if (localDate !== null) {
-      const day: string = String((localDate.dayOfMonth < 10) ? "0" + localDate.dayOfMonth : localDate.dayOfMonth);
-      const month: string = String(((localDate.monthValue + 1) < 10) ? "0" + (localDate.monthValue + 1) : (localDate.monthValue + 1));
-      const year: string = String(localDate.year);
-      return year + "-" + month + "-" + day;
-    }
-    return null;
-  }
 
   public dateTimeToString(date?: Date): string {
     if (date !== null) {
@@ -50,7 +34,7 @@ export class UtilitiesService {
       const splitStringArray = stringDate.split('T');
       const dateSplitArray = splitStringArray[0].split('-');
       const timeSplitArray = splitStringArray[1].split(':');
-      return new Date(+dateSplitArray[0], +dateSplitArray[1] - 1, +dateSplitArray[2] + 1, +timeSplitArray[0], +timeSplitArray[1], 0, 0);
+      return new Date(+dateSplitArray[0], +dateSplitArray[1] - 1, +dateSplitArray[2], +timeSplitArray[0], +timeSplitArray[1], 0, 0);
     }
     return null;
   }
@@ -83,6 +67,7 @@ export class UtilitiesService {
       pDTO.dataPostAsString,
       pDTO.visibile,
       pDTO.visite,
+      pDTO.image,
       this.categoriaDTOToCategoria(pDTO.categoria),
       this.utenteDTOToUtente(pDTO.utente),
       commenti,
@@ -94,7 +79,6 @@ export class UtilitiesService {
     return new Utente(
       uDTO.id,
       uDTO.email,
-      uDTO.password,
       uDTO.isActive,
       uDTO.isBanned,
       uDTO.image,

@@ -15,7 +15,7 @@
         <tbody>
         <tr *ngFor="let commentoRef of commenti | filterUnchecked">
           <td>{{ commentoRef?.utente.email }}</td>
-          <td>{{ utilities.stringToDateTime(commentoRef.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</td>
+          <td>{{ utilities.stringToDateTime(commentoRef.dataInserimentoAsString)| date: 'dd/MM/yyyy' }}</td>
           <td>{{ commentoRef?.testo }}</td>
           <td>
             <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#anteprima"
@@ -60,7 +60,7 @@
                 </div>
                 <div class="media-body">
                   <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                    utilities.stringToDateTime(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy' }}</h4>
+                    utilities.stringToDateTime(commento?.dataInserimentoAsString)| date: 'dd/MM/yyyy' }}</h4>
                   <p>{{ commento?.testo }}</p>
                 </div>
 

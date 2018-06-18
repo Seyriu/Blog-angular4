@@ -1,8 +1,8 @@
 <div class="container text-center">
   <h1>I TUOI DATI</h1>
-    <img class="media-object" *ngIf="!utente.image" src="http://via.placeholder.com/200x200"
+    <img class="media-object img-responsive" *ngIf="!utente.image" src="http://via.placeholder.com/200x200"
          alt="img_profilo">
-    <img class="media-object img-responsive profile-pic" *ngIf="utente.image" [src]="serverPath + utente.image"
+    <img class="media-object profile-pic img-responsive" *ngIf="utente.image" [src]="serverPath + utente.image"
          alt="img_profilo">
     <div class="form-group">
       <label>Email: <span style="color:dimgray">{{ utente?.email }}</span></label>
@@ -10,14 +10,14 @@
     <div class="form-group">
       <label>Data Creazione:
         <span style="color:dimgray">
-              {{ utilities.stringToDateTime(utente?.dateCreationAsString)| date: 'MM/dd/yyyy HH:mm' }}
+              {{ utilities.stringToDateTime(utente?.dateCreationAsString)| date: 'dd/MM/yyyy HH:mm' }}
             </span>
       </label>
     </div>
     <div class="form-group">
       <label>Data Ultimo Accesso:
         <span style="color:dimgray">
-              {{ utilities.stringToDateTime(utente?.dateLastAccessAsString)| date: 'MM/dd/yyyy HH:mm' }}
+              {{ utilities.stringToDateTime(utente?.dateLastAccessAsString)| date: 'dd/MM/yyyy HH:mm' }}
             </span>
       </label>
     </div>
@@ -26,7 +26,7 @@
         <label for="profilePicture">Change your profile picture</label>
         <input type="file" class=" center-item" id="profilePicture" name="profilePicture" (change)="selectFile($event)"
                #profilePicture>
-        <p class="help-block">cambia la tua immagine del profilo. (solo formato jpg e png < di 800kb)</p>
+        <p class="help-block">cambia la tua immagine del profilo. (solo formato jpg e png < di 500kb)</p>
       </div>
       <button type="submit" class="btn btn-default" [disabled]="!files" (click)="uploadProfilePic()">Upload</button>
     </div>

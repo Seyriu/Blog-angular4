@@ -30,7 +30,6 @@ export class UtenteAndLoginService {
       this.utenteUpdated.next(this._utente);
       this.loginUpdated.next(this._loggedIn);
       this.jwtUpdated.next(this._jwt);
-      console.log('userServiceStart: ' + this._utente, localStorage.getItem('savedUser'));
     }
   }
 
@@ -116,7 +115,6 @@ export class UtenteAndLoginService {
   }
 
   increaseFailedAccessAttempts(email: string): Observable<boolean> {
-    console.log(email);
     return this._http.put<boolean>(this._SERVER_PATH_UTENTI + 'failed-accesses',
       email,
       {
@@ -126,12 +124,15 @@ export class UtenteAndLoginService {
       })
   }
 
-  newUser(utente: Utente): Observable<boolean> {
+  newUser(utente: Utente, password: string): Observable<boolean> {
     var jsonUtente = JSON.stringify(utente);
     return this._http.post<boolean>(this._SERVER_PATH_UTENTI,
       jsonUtente,
       {
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json',
+          'pssw': password
+        }
       });
   }
 
@@ -173,7 +174,6 @@ export class UtenteAndLoginService {
     this._utente = value;
     this.utenteUpdated.next(this._utente);
     localStorage.setItem('savedUser', JSON.stringify(value));
-    console.log('setUtente: ' + this._utente);
   }
 
   get jwt(): string {

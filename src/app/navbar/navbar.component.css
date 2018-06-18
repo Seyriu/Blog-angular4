@@ -1,3 +1,16 @@
 ul, li {
   list-style-type: none;
 }
+
+.profile-pic {
+  border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.prof-pic-link {
+  float: left;
+  margin-right: 5px;
+}

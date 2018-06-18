@@ -22,9 +22,17 @@
         <textarea name="" id="" cols="30" rows="3" #textPost style="resize: none;" class="form-control"
                   formControlName="testoPost"></textarea>
       </div>
+
+      <div class="form-group">
+        <label for="postPicture">Aggiungi un'immagine per questo post</label>
+        <input type="file" id="postPicture" name="postPicture" (change)="selectFile($event)"
+               #postPicture>
+        <p class="help-block">Solo formati jpg e png < di 800kb accettati</p>
+      </div>
+
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#anteprimaCreaPost">Anteprima
       </button>
-      <button type="submit" class="btn btn-success" *ngIf="utente?.ruolo.nome === 'administrator'">Pubblica</button>
+      <button type="submit" class="btn btn-success" style="margin-left: 5px;" *ngIf="utente?.ruolo.nome === 'administrator'">Pubblica</button>
     </div>
   </form>
 

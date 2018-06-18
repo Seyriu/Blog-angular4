@@ -43,7 +43,13 @@
         </li>
 
       </ul>
-      <p class="navbar-text navbar-right" *ngIf="isUserLoggedIn">Bentornato, <a [routerLink]="['/user']">{{ utente?.email }}!</a></p>
+      <span class="navbar-text navbar-right" *ngIf="isUserLoggedIn">
+          <a [routerLink]="['/user']" class="prof-pic-link"><img class="media-object profile-pic" *ngIf="!utente?.image"
+                                         src="http://via.placeholder.com/20x20" alt="img_profilo_cmt"></a>
+          <a [routerLink]="['/user']" class="prof-pic-link"><img class="media-object profile-pic" *ngIf="utente?.image"
+                                         [src]="serverPath + utente?.image" alt="img_profilo"></a>
+          <span style="float:left;">Bentornato, {{ utente?.email }}!</span>
+      </span>
       <div class="navbar-right navbar-form">
         <button type="button" class="btn btn-warning" [routerLink]="['/registrazione']"
                 *ngIf="!isUserLoggedIn" style="margin-right: 5px;">

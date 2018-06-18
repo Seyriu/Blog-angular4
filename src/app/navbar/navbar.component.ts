@@ -6,6 +6,7 @@ import { Categoria } from '../models/categoria.model';
 import { CategoriaService } from '../services/categoria.service';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ConstantsService } from '../services/constants.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   accediButtonIsClicked = false;
   errMsg: string[] = [];
   loginModalRef: BsModalRef;
+  serverPath: string = ConstantsService.SERVER_PATH;
 
   // if user is still logged out, detect when the user will be logged in (asynchronously)
   detectUserLogin: string = '';

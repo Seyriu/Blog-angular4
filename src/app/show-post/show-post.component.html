@@ -18,7 +18,8 @@
         </div>
         <div class="panel-body">
           <div class="col-md-2">
-            <img src="http://via.placeholder.com/300x200" alt="profile_image" class="img-responsive">
+            <img class="media-object" *ngIf="!post?.utente.image" src="http://via.placeholder.com/200x200" alt="img_profilo">
+            <img class="media-object post-profile-pic" *ngIf="post?.utente.image" [src]="serverPath + post?.utente.image" alt="img_profilo">
           </div>
           <div class="col-md-10">{{ post?.descrizione }}</div>
           <hr>
@@ -26,20 +27,21 @@
         <div *ngIf="utente">
           <div class="media col-md-offset-2" *ngFor="let commento of post?.commenti">
 
-            <div *ngIf="commento.visibile === 'true'">
+            <div *ngIf="commento?.visibile === 'true'">
               <div class="media-left">
                 <a href="#">
-                  <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                  <img class="media-object" *ngIf="!commento?.utente.image" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                  <img class="media-object profile-pic" *ngIf="commento?.utente.image" [src]="serverPath + commento?.utente.image" alt="img_profilo_cmt">
                 </a>
               </div>
               <div class="media-body">
                 <h4 class="media-heading">{{ commento?.utente.email }} - {{
-                  utilities.stringToDateTime(commento?.dataInserimentoAsString)| date: 'MM/dd/yyyy HH:mm' }}
+                  utilities.stringToDateTime(commento?.dataInserimentoAsString)| date: 'dd/MM/yyyy HH:mm' }}
                   <button *ngIf="utente.ruolo.nome === 'administrator'" type="submit" class="btn btn-danger pull-right"
                          style="margin-right: 5px;" (click)="deleteCommento(commento.id)">
                     &times;
                   </button>
-                  <button *ngIf="utente.ruolo.nome === 'administrator'" type="submit" class="btn btn-danger pull-right"
+                  <button *ngIf="(utente.ruolo.nome === 'administrator') && (commento?.utente.ruolo.nome !== 'administrator')" type="submit" class="btn btn-danger pull-right"
                           style="margin-right: 5px;" (click)="banUser(commento?.utente.id)">
                     Ban
                   </button>
@@ -51,14 +53,15 @@
               <div class="media col-md-offset-1" *ngIf="commento?.risposta">
                 <div class="media-left">
                   <a href="#">
-                    <img class="media-object" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                    <img class="media-object" *ngIf="!post?.utente.image" src="http://via.placeholder.com/50x50" alt="img_profilo_cmt">
+                    <img class="media-object profile-pic" *ngIf="post?.utente.image" [src]="serverPath + post.utente.image" alt="img_profilo_cmt">
                   </a>
                 </div>
                 <div class="media-body">
                   <h4 class="media-heading">admin@admin.com - {{
                     utilities.stringToDateTime(commento?.dataRispostaAsString
                     )| date:
-                    'MM/dd/yyyy HH:mm' }}</h4>
+                    'dd/MM/yyyy HH:mm' }}</h4>
                   <p>{{ commento?.risposta }}</p>
                 </div>
               </div>

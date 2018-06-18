@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Categoria } from '../models/categoria.model';
 import { Utente } from '../models/utente.model';
@@ -8,6 +8,8 @@ import { UtilitiesService } from '../services/utilities.service';
 import { Tag } from '../models/tag.model';
 import { CategoriaService } from '../services/categoria.service';
 import { PostService } from '../services/post.service';
+import { ConstantsService } from '../services/constants.service';
+import { FilesService } from '../services/files.service';
 
 @Component({
   selector: 'app-create-post',
@@ -21,6 +23,9 @@ export class CreatePostComponent implements OnInit {
   private _categoria: Categoria;
   testo: String;
   utente: Utente;
+  files: FileList;
+  serverPath: string = ConstantsService.SERVER_PATH;
+  @ViewChild('postPicture') postPicture;
 
   categorie: Categoria[];
 
@@ -28,7 +33,8 @@ export class CreatePostComponent implements OnInit {
   constructor(private cSvc: CategoriaService,
               private login: UtenteAndLoginService,
               private pSvc: PostService,
-              private utilities: UtilitiesService) {
+              private utilities: UtilitiesService,
+              private fileService: FilesService) {
   }
 
   ngOnInit() {
@@ -82,27 +88,55 @@ export class CreatePostComponent implements OnInit {
     return tags;
   }
 
+  selectFile(event) {
+    this.files = this.postPicture.nativeElement.files;
+  }
+
+  uploadProfilePic() {
+    if (this.files.length === 0) {
+      return;
+    }
+    ;
+
+    const formData = new FormData();
+    formData.append('profilePicture', this.files[0]);
+
+    this.fileService.uploadProfilePic(formData).subscribe(
+      (response: Response) => {
+        this.login.loadUser(this.utente.id, this.login.jwt).subscribe((utente: Utente) => {
+          this.utente = utente;
+          this.login.utente = utente;
+        });
+      });
+  }
+
   onSubmitNewPost() {
 
     console.log("posting...");
     if (this.postForm.valid) {
 
       this.post = new Post(
-        null,
+        -1,
         this.postForm.get("titoloPost").value,
         this.postForm.get("testoPost").value,
         this.utilities.dateTimeToString(new Date()),
         true,
         0,
+        null, // image
         this._categoria,
         this.utente,
         null,
         this.getHashTags(this.postForm.get("testoPost").value)
       );
 
+      const formData = new FormData();
+      formData.append('profilePicture', this.files[0]);
       this.pSvc.insertPost(this.post).subscribe(
-        result => {
-          console.log(result);
+        (postId: number) => {
+          this.fileService.uploadPostPic(formData, postId).subscribe(
+            (response: Response) => {
+              console.log(response);
+            });
         }
       );
       this.postForm.reset();

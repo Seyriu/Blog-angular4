@@ -57,9 +57,9 @@ export class PostService {
       });
   }
 
-  insertPost(post: Post): Observable<boolean> {
+  insertPost(post: Post): Observable<number> {
 
-    const req = this._httpClient.post<boolean>(this._SERVER_PATH,
+    const req = this._httpClient.post<number>(this._SERVER_PATH,
       JSON.stringify(post),
       {
         headers: {

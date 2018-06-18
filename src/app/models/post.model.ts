@@ -11,6 +11,7 @@ export class Post {
     public dataPostAsString: string,
     public visibile: boolean,
     public visite: number,
+    public image: string,
     public categoria: Categoria,
     public utente: Utente,
     public commenti: Commento[],

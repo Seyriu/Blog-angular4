@@ -49,23 +49,23 @@ export class RegistrazioneComponent implements OnInit {
   }
 
   onSubmitNewUser() {
+    console.log(this.regForm);
     const email: string = this.regForm.get('emailSU').value;
-    const password: string = this.regForm.get('passwordSU').value;
+    const password: string = this.regForm.get('passwordGroup.passwordSU').value;
 
     this.utente = new Utente(
       null,
       email,
-      password,
       false,
       false,
-      "",
+      null,
       0,
       this.utilities.dateTimeToString(new Date()),
       this.utilities.dateTimeToString(new Date()),
       new Ruolo(3, "utente")
     );
     if (this.regForm.valid) {
-      this.login.newUser(this.utente).subscribe((result: boolean) => {
+      this.login.newUser(this.utente, password).subscribe((result: boolean) => {
         if (!result) {
           this.utenteInserito = 'error';
         } else {

@@ -10,6 +10,7 @@ import { PostService } from '../services/post.service';
 import { Tag } from '../models/tag.model';
 import { TagService } from '../services/tag.service';
 import { CommentoService } from '../services/commento.service';
+import { ConstantsService } from '../services/constants.service';
 
 @Component({
   selector: 'app-show-post',
@@ -21,6 +22,7 @@ export class ShowPostComponent implements OnInit {
   id: number;
   tags: any[];
   utente: Utente;
+  serverPath: string = ConstantsService.SERVER_PATH;
   commentForm: FormGroup;
 
   constructor(private pSvc: PostService,
@@ -93,7 +95,6 @@ export class ShowPostComponent implements OnInit {
   deleteCommento(id: number) {
     this.coSvc.deleteCommento(id).subscribe(
       (callResult: boolean) => {
-        console.log(callResult);
         if (callResult) {
           this.pSvc.loadPost(this.id).subscribe(
             (post: Post) => {

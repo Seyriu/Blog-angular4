@@ -103,7 +103,6 @@ export class AdminPageComponent implements OnInit {
       this.cSvc.insertCategoria(cat)
         .subscribe(
           (result: boolean) => {
-            console.log(result);
             if (result) {
               this.cSvc.loadCategorie().subscribe(
                 (categorie: Categoria[]) => {
@@ -190,7 +189,6 @@ export class AdminPageComponent implements OnInit {
   updateVisibility(commento: Commento) {
     this.coSvc.updateVisibility('true', commento.id).subscribe(
       (callResult: boolean) => {
-        console.log(callResult);
         if (callResult) {
           this.coSvc.loadCommenti().subscribe(
             (commenti: Commento[]) => {
@@ -205,7 +203,6 @@ export class AdminPageComponent implements OnInit {
   deleteCommento(id: number) {
     this.coSvc.deleteCommento(id).subscribe(
       (callResult: boolean) => {
-        console.log(callResult);
         if (callResult) {
           this.coSvc.loadCommenti().subscribe(
             (commenti: Commento[]) => {
@@ -221,7 +218,6 @@ export class AdminPageComponent implements OnInit {
   deleteTag(id: number) {
     this.tSvc.deleteTag(id).subscribe(
       (callResult: boolean) => {
-        console.log(callResult);
         if (callResult) {
           this.tSvc.loadTags().subscribe(
             (tags: Tag[]) => {
@@ -237,7 +233,6 @@ export class AdminPageComponent implements OnInit {
   deleteCategoria(id: number) {
     this.cSvc.deleteCategoria(id).subscribe(
       (callResult: boolean) => {
-        console.log(callResult);
         if (callResult) {
           this.cSvc.loadCategorie().subscribe(
             (categorie: Categoria[]) => {
