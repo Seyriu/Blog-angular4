@@ -48,13 +48,14 @@ export class RegistrazioneComponent implements OnInit {
     return null;
   }
 
+  // pass -1 as id to create any new database item (users/posts/categories/etc...)
   onSubmitNewUser() {
     console.log(this.regForm);
     const email: string = this.regForm.get('emailSU').value;
     const password: string = this.regForm.get('passwordGroup.passwordSU').value;
 
     this.utente = new Utente(
-      null,
+      -1,
       email,
       false,
       false,
