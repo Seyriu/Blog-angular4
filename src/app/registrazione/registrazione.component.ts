@@ -71,7 +71,7 @@ export class RegistrazioneComponent implements OnInit {
           this.utenteInserito = 'error';
         } else {
           this.utenteInserito = 'success';
-          this.logNewUserIn(email, password);
+          // this.logNewUserIn(email, password);
         }
       });
 

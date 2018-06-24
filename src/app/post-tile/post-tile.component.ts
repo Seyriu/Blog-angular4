@@ -4,6 +4,7 @@ import { Post } from '../models/post.model';
 import { Utente } from '../models/utente.model';
 import { UtenteAndLoginService } from '../services/utente-and-login.service';
 import { Subscription } from 'rxjs/index';
+import { ConstantsService } from '../services/constants.service';
 
 @Component({
   selector: 'app-post-tile',
@@ -14,6 +15,7 @@ export class PostTileComponent implements OnInit, OnDestroy {
   @Input() post: Post;
   utente: Utente = null;
   utenteSub: Subscription;
+  serverPath: string = ConstantsService.SERVER_PATH;
 
   constructor(public utilities: UtilitiesService,
               private login: UtenteAndLoginService) { }

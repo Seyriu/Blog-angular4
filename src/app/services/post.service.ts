@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Post } from '../models/post.model';
-import { Commento } from '../models/commento.model';
 import { map } from 'rxjs/internal/operators';
-import { post } from 'selenium-webdriver/http';
 import { UtilitiesService } from './utilities.service';
-import { Tag } from '../models/tag.model';
-import { Categoria } from '../models/categoria.model';
 import { UtenteAndLoginService } from './utente-and-login.service';
 import { ConstantsService } from './constants.service';
 
@@ -27,13 +23,13 @@ export class PostService {
   public loadPosts(): Observable<Post[]> {
     return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
         map(postsDTO => {
-          var posts: Post[] = [];
+          const posts: Post[] = [];
           postsDTO.forEach((pDTO: any) => {
             posts.push(this._utilities.postDTOToPost(pDTO));
           });
           return posts;
         })
-      )
+      );
   }
 
   public loadPost(id: number): Observable<Post> {
@@ -43,12 +39,13 @@ export class PostService {
       map(pDTO => {
         return this._utilities.postDTOToPost(pDTO);
       })
-    )
+    );
   }
 
   increaseViewCount(id: number): Observable<boolean> {
-    return this._httpClient.put<boolean>(this._SERVER_PATH + id,
-      "",
+    console.log(this._login.jwt);
+    return this._httpClient.put<boolean>(this._SERVER_PATH + 'view-count/' + id,
+      true,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +55,6 @@ export class PostService {
   }
 
   insertPost(post: Post): Observable<number> {
-
     const req = this._httpClient.post<number>(this._SERVER_PATH,
       JSON.stringify(post),
       {

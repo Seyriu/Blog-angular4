@@ -1,0 +1,7 @@
+.post-profile-pic {
+  border-radius: 5px;
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}

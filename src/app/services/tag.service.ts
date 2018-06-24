@@ -21,13 +21,13 @@ export class TagService {
   public loadTags(): Observable<Tag[]> {
     return this._httpClient.get<any[]>(this._SERVER_PATH).pipe(
       map(tagsDTO => {
-        var tags: Tag[] = [];
+        const tags: Tag[] = [];
         tagsDTO.forEach((tDTO: any) => {
           tags.push(this._utilities.tagDTOToTag(tDTO));
         });
         return tags;
       })
-    )
+    );
   }
 
   public loadTag(id: number): Observable<Tag> {
@@ -37,7 +37,7 @@ export class TagService {
       map(tDTO => {
         return this._utilities.tagDTOToTag(tDTO);
       })
-    )
+    );
   }
 
   deleteTag(id: number): Observable<boolean> {

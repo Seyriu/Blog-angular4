@@ -25,7 +25,7 @@ export class AdminPageComponent implements OnInit {
   tags: Tag[];
   commenti: Commento[];
   commento: Commento = null;
-  errMsg: string = "";
+  errMsg = '';
   catModalRef: BsModalRef;
   cmtModalRef: BsModalRef;
 
@@ -198,6 +198,7 @@ export class AdminPageComponent implements OnInit {
         }
       }
     );
+    this.cmtModalRef.hide();
   }
 
   deleteCommento(id: number) {
@@ -213,6 +214,7 @@ export class AdminPageComponent implements OnInit {
         }
       }
     )
+    this.cmtModalRef.hide();
   }
 
   deleteTag(id: number) {

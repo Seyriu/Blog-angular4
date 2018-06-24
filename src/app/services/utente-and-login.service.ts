@@ -5,6 +5,8 @@ import { Utente } from '../models/utente.model';
 import { map } from 'rxjs/internal/operators';
 import { UtilitiesService } from './utilities.service';
 import { ConstantsService } from './constants.service';
+import { CONTENT_ATTR } from '@angular/platform-browser/src/dom/dom_renderer';
+import { ContentType } from '@angular/http/src/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +46,17 @@ export class UtenteAndLoginService {
         }
       }).pipe(
       map(jwt => {
-          this.jwt = jwt[0];
-          this._id = jwt[1];
-          this.loggedIn = true;
-          return true;
+          if (jwt !== null) {
+            this.jwt = jwt[0];
+            this._id = jwt[1];
+            this.loggedIn = true;
+            return true;
+          } else {
+            this.jwt = "";
+            this._id = "";
+            this.loggedIn = false;
+            return false
+          }
         },
         err => {
           this.jwt = "";
@@ -94,11 +103,12 @@ export class UtenteAndLoginService {
 
   activateUser(id: number): Observable<boolean> {
     return this._http.put<boolean>(this._SERVER_PATH_UTENTI + 'activated/' + id,
-      true,
+      "",
       {
         headers: {
           'Content-Type': 'application/json',
           'jwt': this.jwt,
+          'isActive': 'true'
         }
       })
   }
@@ -108,7 +118,7 @@ export class UtenteAndLoginService {
       ban,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': "text/plain",
           'jwt': this.jwt,
         }
       })

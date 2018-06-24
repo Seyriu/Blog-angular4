@@ -76,6 +76,9 @@ export class UtilitiesService {
   }
 
   public utenteDTOToUtente(uDTO: any): Utente {
+    if (uDTO === null) {
+      return uDTO;
+    }
     return new Utente(
       uDTO.id,
       uDTO.email,

@@ -1,6 +1,7 @@
 <div class="col-xs-12 col-sm-6 col-lg-4" *ngIf="post.visibile">
   <div class="thumbnail text-center">
-    <img [src]="'http://via.placeholder.com/250x200'" alt="post_img">
+    <img *ngIf="!post.image" [src]="'http://via.placeholder.com/250x200'" alt="post_img">
+    <img *ngIf="post.image" class="post-pic" [src]="serverPath + post.image" alt="post_img">
     <div class="caption">
       <hr>
       <h3>{{post.titolo | slice:0:20}}</h3>

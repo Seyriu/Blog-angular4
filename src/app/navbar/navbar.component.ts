@@ -91,6 +91,11 @@ export class NavbarComponent implements OnInit {
                   this.detectUserLogin = 'true';
                   this.loginModalRef.hide();
                 });
+            } else {
+              this.errMsg = [];
+              this.detectUserLogin = 'false';
+              this.errMsg.push('Nome  utente / password incorretti o utente inattivo');
+              this.login.setLoggedInAndUser(false, null);
             }
           },
           err => {

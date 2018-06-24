@@ -40,8 +40,8 @@ export class ShowPostComponent implements OnInit {
         (post: Post) => {
           this.post = post;
           this.post.visite += 1;
+          this.pSvc.increaseViewCount(this.id).subscribe();
         });
-      this.pSvc.increaseViewCount(this.id).subscribe();
     });
 
     this.utente = this.login.utente;
