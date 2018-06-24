@@ -115,7 +115,6 @@ export class CreatePostComponent implements OnInit {
       );
       const formData = new FormData();
       formData.append('postPicture', this.files[0]);
-      console.log(formData, this.files[0]);
       this.pSvc.insertPost(this.post).subscribe(
         (postId: number) => {
           this.fileService.uploadPostPic(formData, postId).subscribe(
